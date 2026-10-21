@@ -90,28 +90,27 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 .switch [data-mode="c"] .ico{background:currentColor}
 
 /* ── Portada ──────────────────────────── */
-.hero{position:relative;overflow:hidden;isolation:isolate}
-.haz{position:absolute;inset:0;z-index:-1;pointer-events:none;--x:74%}
-.haz>*{position:absolute;left:var(--x);transform:translateX(-50%)}
-.haz-halo{top:-10%;bottom:-10%;width:min(80vw,820px);filter:blur(34px);background:radial-gradient(closest-side,rgb(var(--haz-glow)/.26),rgb(var(--haz-glow)/.08) 55%,transparent);animation:respira 7s ease-in-out infinite alternate}
-.haz-core{top:0;bottom:16%;width:3px;border-radius:2px;transform-origin:top center;background:linear-gradient(to bottom,transparent,var(--haz-core) 22%,var(--haz-core));box-shadow:0 0 10px 2px rgb(var(--haz-glow)/.6),0 0 40px 12px rgb(var(--haz-glow)/.35),0 0 100px 30px rgb(var(--haz-glow)/.18);animation:enciende 1.4s var(--ease) both}
-.haz-pulso{top:0;width:5px;height:26%;opacity:0;filter:blur(1px);background:linear-gradient(to bottom,transparent,var(--haz-core) 70%,transparent);animation:cae 4.8s cubic-bezier(.55,0,.45,1) 1.4s infinite}
-.haz-piso{bottom:9%;width:min(70vw,640px);height:90px;filter:blur(24px);background:radial-gradient(closest-side,rgb(var(--haz-glow)/.35),transparent)}
-.haz-horizonte{bottom:16%;width:min(120vw,1400px);height:1px;background:linear-gradient(90deg,transparent,rgb(var(--haz-glow)/.5) 25%,var(--haz-core) 50%,rgb(var(--haz-glow)/.5) 75%,transparent)}
-@keyframes respira{from{opacity:.8;transform:translateX(-50%) scaleX(.94)}to{opacity:1;transform:translateX(-50%) scaleX(1.06)}}
-@keyframes enciende{from{transform:translateX(-50%) scaleY(0);opacity:0}to{transform:translateX(-50%) scaleY(1);opacity:1}}
-@keyframes cae{0%{transform:translateX(-50%) translateY(-115%);opacity:0}15%,80%{opacity:.9}100%{transform:translateX(-50%) translateY(300%);opacity:0}}
-.grano{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.07;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-body[data-theme="light"] .grano{display:none}
-.hero-in{position:relative;padding-block:clamp(56px,9vw,120px) clamp(48px,7vw,96px)}
-.hero .lbl{display:inline-flex;align-items:center;gap:10px}
-.hero .lbl::before{content:"";width:8px;height:8px;background:var(--acc)}
-.display{font-size:var(--dfs);font-weight:900;letter-spacing:-.06em;line-height:.82;text-transform:uppercase;margin:clamp(28px,5vw,56px) 0 clamp(24px,4vw,40px) -.04em;transition:font-size .5s var(--ease)}
-.display .star{font-size:.56em;vertical-align:.55em;margin:0 .02em;letter-spacing:0}
-body[data-theme="light"] .display .star{background:none;color:var(--fg)}
-.promise{font-size:clamp(24px,3.2vw,44px);font-weight:800;letter-spacing:-.03em;line-height:1.08;max-width:22ch;text-wrap:balance}
-.promise-sub{margin-top:14px;font-size:clamp(18px,1.8vw,22px);color:var(--mute)}
-.brands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:32px;max-width:720px}
+/* Distribución de la referencia: título centrado, subtítulo, texto, pastilla con resplandor, nombres al pie;
+   detrás, una matriz de puntos generada en vivo desde un video propio */
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(560px,84vh,880px);display:flex;flex-direction:column}
+.dots{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;pointer-events:none}
+.hero-src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
+.hero-in{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:clamp(56px,9vw,110px) 28px}
+.hero-title{font-size:clamp(42px,7.2vw,110px);font-weight:800;letter-spacing:-.045em;line-height:.98;text-wrap:balance}
+.hero-title .mom{font-weight:300;color:var(--mute)}
+.hero-title .star{font-size:.62em;vertical-align:.5em;margin:0 .02em;letter-spacing:0}
+.hero-sub{margin-top:18px;font-size:clamp(13px,1.35vw,17px);font-weight:800;letter-spacing:.3em;text-transform:uppercase}
+.hero-text{margin-top:14px;font-size:clamp(16px,1.5vw,19px);color:var(--mute);max-width:42ch;text-wrap:balance}
+.hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px}
+.pill{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-size:15px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--fg);color:var(--bg);transition:transform .25s var(--ease)}
+.pill:hover{transform:translateY(-2px)}
+.pill::after{content:"";position:absolute;left:10%;right:10%;bottom:-9px;height:16px;border-radius:50%;background:var(--acc);filter:blur(12px);opacity:.75;z-index:-1;animation:glow 3.6s ease-in-out infinite alternate}
+@keyframes glow{from{opacity:.45;transform:scaleX(.85)}to{opacity:.95;transform:scaleX(1.06)}}
+.pill.ghost{background:var(--bg);color:var(--fg);box-shadow:inset 0 0 0 1px var(--line)}
+.pill.ghost::after{display:none}
+.trust{position:relative;padding-block:20px 30px;display:flex;flex-wrap:wrap;justify-content:center;gap:10px 34px}
+.trust span{font-size:14px;font-weight:800;letter-spacing:-.01em;color:var(--mute);white-space:nowrap}
+.brands{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:28px;width:min(640px,100%);text-align:left}
 .brand{border:0;border-radius:16px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);padding:20px 22px;text-align:left;cursor:pointer;display:grid;gap:4px;transition:box-shadow .25s,transform .25s}
 .brand:hover{box-shadow:inset 0 0 0 1px var(--hi);transform:translateY(-2px)}
 .brand b{font-size:clamp(22px,2.4vw,30px);font-weight:900;letter-spacing:-.03em}
@@ -330,8 +329,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     <a class="logo" href="#top" id="logo">GROWTH<span class="star">*</span></a>
     <div class="rec" aria-hidden="true"><span class="dot"></span><span>REC</span><span class="tc" id="tc">00:00:00:00</span></div>
     <div class="switch" role="group" aria-label="Elegir frente">
-      <button type="button" id="sw-e" data-mode="e" aria-pressed="false"><span class="ico"></span>G*Startups</button>
-      <button type="button" id="sw-c" data-mode="c" aria-pressed="false"><span class="ico"></span>G*Stars</button>
+      <button type="button" id="sw-e" data-mode="e" aria-pressed="false"><span class="ico"></span>Startups</button>
+      <button type="button" id="sw-c" data-mode="c" aria-pressed="false"><span class="ico"></span>Stars</button>
     </div>
   </div>
 </header>
@@ -339,19 +338,23 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 <main id="top">
 
   <!-- Portada -->
-  <section class="hero o-hero">
-    <div class="haz" aria-hidden="true"><div class="haz-halo"></div><div class="haz-piso"></div><div class="haz-horizonte"></div><div class="haz-core"></div><div class="haz-pulso"></div></div>
-    <div class="grano" aria-hidden="true"></div>
+  <section class="hero o-hero" id="hero">
+    <canvas class="dots" id="dots" aria-hidden="true"></canvas>
+    <video class="hero-src" id="hero-src" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
     <div class="wrap hero-in">
-      <span class="lbl entra" data-t="hero.l">Producción cinematográfica · Crecimiento</span>
-      <h1 class="display entra d1" data-t="hero.d">GROWTH*</h1>
-      <p class="promise entra d2" data-t="hero.p">Hacemos que las marcas y los eventos se vean increíbles y vendan más.</p>
-      <p class="promise-sub entra d3" data-t="hero.s">Dos frentes, un solo método.</p>
+      <h1 class="hero-title entra" id="hero-title">GROWTH<span class="star">*</span></h1>
+      <p class="hero-sub entra d1" data-t="hero.sub">Producción cinematográfica &amp; growth</p>
+      <p class="hero-text entra d2" data-t="hero.txt">Growth Hacking, Dirección Creativa y Branding para marcas, sellos y productoras.</p>
+      <div class="hero-ctas entra d3">
+        <a class="pill" href="#diagnostico" data-t="hero.cta">Pide un diagnóstico gratis</a>
+        <a class="pill ghost" href="#reel">Ver el trabajo</a>
+      </div>
       <div class="brands" data-show="n">
-        <button type="button" class="brand" data-mode="e"><b>G<span class="star">*</span>Startups</b><span>Empresas y marcas</span></button>
-        <button type="button" class="brand" data-mode="c"><b>G<span class="star">*</span>Stars</b><span>Artistas, sellos y escena</span></button>
+        <button type="button" class="brand" data-mode="e"><b>GROWTH<span class="star">*</span>Startups</b><span>Startups y marcas</span></button>
+        <button type="button" class="brand" data-mode="c"><b>GROWTH<span class="star">*</span>Stars</b><span>Sellos, productoras y artistas</span></button>
       </div>
     </div>
+    <div class="wrap trust" id="trust" aria-label="Con quién hemos trabajado"></div>
   </section>
 
   <!-- Puertas: Proyectos / Eventos -->
@@ -582,10 +585,9 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   /* ── Textos por frente: n = GROWTH* (sin elegir) · e = G*Startups (usted) · c = G*Stars (tú) ── */
   var T = {
     n:{
-      "hero.l":"Producción cinematográfica · Crecimiento",
-      "hero.d":"GROWTH*",
-      "hero.p":"Hacemos que las marcas y los eventos se vean increíbles y vendan más.",
-      "hero.s":"Dos frentes, un solo método.",
+      "hero.sub":"Producción cinematográfica & growth",
+      "hero.txt":"Growth Hacking, Dirección Creativa y Branding para marcas, sellos y productoras.",
+      "hero.cta":"Pide un diagnóstico gratis",
       "doors.s":"Proyectos y eventos, con el mismo método.",
       "dp.h":"Una marca, un artista o una empresa", "dp.p":"Para que se vea bien, venda más y se sepa por qué.",
       "dv.h":"Un concierto, una feria o un lanzamiento", "dv.p":"Para llenar el lugar y que se recuerde.",
@@ -601,13 +603,12 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       "dx.fh":"Pide tu diagnóstico", "dx.ln":"Tu nombre",
       "dx.done":"El mensaje está listo. Envíalo por WhatsApp y respondemos con el diagnóstico.",
       "end":"Dos frentes. Un solo método.",
-      "end.l":"GROWTH* · G*Startups · G*Stars"
+      "end.l":"GROWTH* · GROWTH*Startups · GROWTH*Stars"
     },
     e:{
-      "hero.l":"Una marca de GROWTH*",
-      "hero.d":"G*Startups",
-      "hero.p":"Hacemos que su empresa y sus eventos se vean increíbles y vendan más.",
-      "hero.s":"Y le mostramos cada resultado.",
+      "hero.sub":"Data & algoritmos predictivos",
+      "hero.txt":"Growth Hacking y Branding para Startups y Marcas.",
+      "hero.cta":"Pida su diagnóstico gratis",
       "doors.s":"Su proyecto o su evento, con el mismo método.",
       "dp.h":"Su empresa o su marca", "dp.p":"Para que se vea bien, venda más y sepa por qué.",
       "dv.h":"Su lanzamiento, feria o evento corporativo", "dv.p":"Para que llegue la gente correcta y se recuerde.",
@@ -622,13 +623,12 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       "dx.fh":"Pida su diagnóstico", "dx.ln":"Su nombre",
       "dx.done":"Su mensaje está listo. Envíelo por WhatsApp y le respondemos con el diagnóstico.",
       "end":"Crecimiento con sistema.",
-      "end.l":"G*Startups · una marca de GROWTH*"
+      "end.l":"GROWTH*Startups"
     },
     c:{
-      "hero.l":"Una marca de GROWTH*",
-      "hero.d":"G*Stars",
-      "hero.p":"Hacemos que tu música y tus eventos se vean increíbles y lleguen más lejos.",
-      "hero.s":"Y te mostramos cada resultado.",
+      "hero.sub":"Trust your vision",
+      "hero.txt":"Growth Hacking & Dirección Creativa para Sellos y Productoras.",
+      "hero.cta":"Pide tu diagnóstico gratis",
       "doors.s":"Tu proyecto o tu evento, con el mismo método.",
       "dp.h":"Tu música, tu proyecto o tu sello", "dp.p":"Para que tu música llegue lejos y no dependa de nadie.",
       "dv.h":"Tu concierto, festival o fiesta", "dv.p":"Para llenar el lugar y que nadie lo olvide.",
@@ -644,7 +644,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       "dx.fh":"Pide tu diagnóstico", "dx.ln":"Tu nombre",
       "dx.done":"Tu mensaje está listo. Envíalo por WhatsApp y te respondemos con el diagnóstico.",
       "end":"No con balas. Con registro.",
-      "end.l":"G*Stars · una marca de GROWTH*"
+      "end.l":"GROWTH*Stars"
     }
   };
 
@@ -726,7 +726,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   /* ── Flyers (los mismos de la web de G*S) ── */
   var EVENTOS = [{"n":"01","s":[{"t":"img","src":"e01-2.webp","th":"e01-2-t.webp","w":1170,"h":1456},{"t":"vid","src":"e01-1.mp4","th":"e01-1-t.webp","w":720,"h":896}]},{"n":"02","s":[{"t":"img","src":"e02-1.webp","th":"e02-1-t.webp","w":1400,"h":1750},{"t":"vid","src":"e02-2.mp4","th":"e02-2-t.webp","w":720,"h":900}]},{"n":"03","s":[{"t":"vid","src":"e03-1.mp4","th":"e03-1-t.webp","w":720,"h":900}]},{"n":"04","s":[{"t":"img","src":"e04-1.webp","th":"e04-1-t.webp","w":1353,"h":1800},{"t":"vid","src":"e04-2.mp4","th":"e04-2-t.webp","w":720,"h":958}]},{"n":"05","s":[{"t":"img","src":"e05-1.webp","th":"e05-1-t.webp","w":1400,"h":1750}]},{"n":"06","s":[{"t":"vid","src":"e06-2.mp4","th":"e06-2-t.webp","w":720,"h":900},{"t":"img","src":"e06-1.webp","th":"e06-1-t.webp","w":1170,"h":1463}]},{"n":"07","s":[{"t":"vid","src":"e07-1.mp4","th":"e07-1-t.webp","w":720,"h":900}]},{"n":"08","s":[{"t":"img","src":"e08-3.webp","th":"e08-3-t.webp","w":1400,"h":1750},{"t":"img","src":"e08-1.webp","th":"e08-1-t.webp","w":1400,"h":1750},{"t":"img","src":"e08-2.webp","th":"e08-2-t.webp","w":1400,"h":1750}]},{"n":"09","s":[{"t":"vid","src":"e09-1.mp4","th":"e09-1-t.webp","w":360,"h":450},{"t":"vid","src":"e09-2.mp4","th":"e09-2-t.webp","w":360,"h":450},{"t":"vid","src":"e09-3.mp4","th":"e09-3-t.webp","w":360,"h":450}]},{"n":"10","s":[{"t":"vid","src":"e10-2.mp4","th":"e10-2-t.webp","w":720,"h":960},{"t":"img","src":"e10-1.webp","th":"e10-1-t.webp","w":1086,"h":1448}]},{"n":"11","s":[{"t":"img","src":"e11-2.webp","th":"e11-2-t.webp","w":1170,"h":1463},{"t":"img","src":"e11-1.webp","th":"e11-1-t.webp","w":1170,"h":1463}]},{"n":"12","s":[{"t":"img","src":"e12-1.webp","th":"e12-1-t.webp","w":1170,"h":1458}]},{"n":"13","s":[{"t":"img","src":"e13-1.webp","th":"e13-1-t.webp","w":1170,"h":1463}]},{"n":"14","s":[{"t":"img","src":"e14-1.webp","th":"e14-1-t.webp","w":872,"h":1090}]},{"n":"15","s":[{"t":"img","src":"e15-1.webp","th":"e15-1-t.webp","w":470,"h":587}]},{"n":"16","s":[{"t":"img","src":"e16-1.webp","th":"e16-1-t.webp","w":446,"h":558},{"t":"img","src":"e16-2.webp","th":"e16-2-t.webp","w":445,"h":556}]},{"n":"17","s":[{"t":"img","src":"e17-1.webp","th":"e17-1-t.webp","w":868,"h":1085}]}];
 
-  var NAMES = {n:"GROWTH*", e:"G*Startups", c:"G*Stars"};
+  var NAMES = {n:"GROWTH*", e:"GROWTH*Startups", c:"GROWTH*Stars"};
   var HASH = {e:"startups", c:"stars"};
   var WA = "573133637653";
   var mode = "n", vert = "p", filter = "all", step = 0;
@@ -752,7 +752,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   function renderReel(){
     var list = visibleReel();
     $("strip").innerHTML = list.map(function(r, i){
-      var tag = mode === "n" ? (r.l === "c" ? "G*Stars" : "G*Startups") : (r.v === "p" ? "Proyecto" : "Evento");
+      var tag = mode === "n" ? (r.l === "c" ? "Stars" : "Startups") : (r.v === "p" ? "Proyecto" : "Evento");
       return '<button type="button" class="clip" data-i="' + i + '" style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
         '<img src="' + M + 'reel/' + r.s + '.jpg" alt="" loading="lazy">' +
         '<video muted loop playsinline preload="none" data-src="' + M + 'reel/' + r.s + '.mp4"></video>' +
@@ -1046,17 +1046,114 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     document.querySelectorAll('input[name="tipo"]').forEach(function(r){ r.checked = r.id === id; });
   }
 
+  /* ── Portada: matriz de puntos en vivo sobre un video propio (el efecto de la referencia) ── */
+  var HERO_VID = {n:"topboy-aftermovie", c:"rasca-la-kalle", e:"cumbre"};
+  var TRUST = {
+    n:["TOPBOY","La Rasca Salinera","Cumbre","SOMOSCABAL","Feria del Diseño","Marlon"],
+    c:["TOPBOY","La Rasca Salinera","Marlon","Kei Linch","Jhonny Rivera","Jhon Alex Castaño"],
+    e:["Cumbre","SOMOSCABAL","Feria del Diseño"]
+  };
+  var Dots = (function(){
+    var hero = $("hero"), cv = $("dots"), ctx = cv.getContext("2d"), src = $("hero-src");
+    var off = document.createElement("canvas"), octx = off.getContext("2d", {willReadFrequently:true});
+    var W = 0, H = 0, dpr = 1, cell = 8, cols = 0, rows = 0, vis = true, raf = 0, last = 0, tainted = false, seeds = null;
+    function sm(a, b, v){ v = Math.min(1, Math.max(0, (v - a) / (b - a))); return v * v * (3 - 2 * v); }
+    function size(){
+      var r = hero.getBoundingClientRect();
+      dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height;
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      cell = W < 700 ? 6 : 8; cols = Math.max(1, Math.ceil(W / cell)); rows = Math.max(1, Math.ceil(H / cell));
+      off.width = cols; off.height = rows;
+      seeds = new Float32Array(cols * rows);
+      for (var i = 0; i < seeds.length; i++) seeds[i] = ((i * 2654435761) >>> 0) / 4294967296;
+    }
+    /* Los puntos viven a los lados y dejan el centro libre para el texto; en el celular, debajo */
+    function mask(x, y){
+      if (W < 700) return sm(.6, .74, y) * (1 - sm(.93, 1, y));
+      return sm(.15, .35, Math.abs(x - .5)) * sm(.1, .28, y) * (1 - sm(.8, .94, y));
+    }
+    function sample(){
+      if (tainted || src.readyState < 2 || !src.videoWidth) return null;
+      try {
+        var vw = src.videoWidth, vh = src.videoHeight, s = Math.max(cols / vw, rows / vh), dw = vw * s, dh = vh * s;
+        octx.drawImage(src, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+        return octx.getImageData(0, 0, cols, rows).data;
+      } catch(e){ tainted = true; return null; }
+    }
+    /* Mientras carga el video: dos formas que se buscan desde los lados */
+    function proc(x, y, t){
+      var ax = (x - .2 - .05 * Math.sin(t * .0004)) / .17, ay = (y - .5 - .06 * Math.sin(t * .0003)) / .2;
+      var bx = (x - .8 + .05 * Math.sin(t * .00035)) / .17, by = (y - .56 + .05 * Math.cos(t * .0004)) / .18;
+      return Math.min(1, (Math.exp(-(ax * ax + ay * ay)) + Math.exp(-(bx * bx + by * by))) * (.7 + .3 * Math.sin(x * 38 + t * .002)));
+    }
+    function draw(t){
+      if (!cols) return;
+      var dark = document.body.dataset.theme !== "light", data = sample(), rmax = cell * .44, greens = [];
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = dark ? "#F4F4F2" : "#0A0A0A"; ctx.beginPath();
+      for (var r = 0; r < rows; r++){
+        var y = (r + .5) / rows, cy = r * cell + cell / 2;
+        for (var c = 0; c < cols; c++){
+          var x = (c + .5) / cols, m = mask(x, y);
+          if (m < .02) continue;
+          var i = r * cols + c, l;
+          if (data){ var k = i * 4; l = (data[k] * .299 + data[k + 1] * .587 + data[k + 2] * .114) / 255; } else l = dark ? proc(x, y, t) : 1 - proc(x, y, t);
+          var v = Math.max(0, ((dark ? l : 1 - l) - .18) / .72);
+          v = Math.pow(Math.min(1, v), 1.35) * m;
+          if (v < .08) continue;
+          var rad = rmax * v, cx = c * cell + cell / 2;
+          if (dark && seeds[i] < .035 && v > .45){ greens.push(cx, cy, rad); continue; }
+          ctx.moveTo(cx + rad, cy); ctx.arc(cx, cy, rad, 0, 6.2832);
+        }
+      }
+      ctx.fill();
+      if (greens.length){
+        ctx.fillStyle = "#B7FF06"; ctx.beginPath();
+        for (var g = 0; g < greens.length; g += 3){ ctx.moveTo(greens[g] + greens[g + 2], greens[g + 1]); ctx.arc(greens[g], greens[g + 1], greens[g + 2], 0, 6.2832); }
+        ctx.fill();
+      }
+    }
+    function loop(t){ raf = 0; if (!vis) return; if (t - last > 33){ last = t; draw(t); } raf = requestAnimationFrame(loop); }
+    function play(){ if (reduce || !src.getAttribute("src")) return; var p = src.play(); if (p && p.catch) p.catch(function(){}); }
+    function start(){ if (!raf && vis && !reduce) raf = requestAnimationFrame(loop); play(); }
+    src.addEventListener("loadeddata", function(){ if (reduce){ try { src.currentTime = src.duration * .3; } catch(e){} } draw(performance.now()); });
+    src.addEventListener("seeked", function(){ if (reduce) draw(0); });
+    if ("ResizeObserver" in window) new ResizeObserver(function(){ size(); draw(performance.now()); }).observe(hero);
+    else addEventListener("resize", function(){ size(); draw(performance.now()); });
+    if ("IntersectionObserver" in window){
+      new IntersectionObserver(function(e){ vis = e[0].isIntersecting; if (vis) start(); else src.pause(); }).observe(hero);
+    }
+    size(); draw(0); start();
+    return {
+      setSource:function(slug){
+        if (src.dataset.slug === slug) return;
+        src.dataset.slug = slug; tainted = false; src.src = M + "reel/" + slug + ".mp4"; play();
+      },
+      redraw:function(){ draw(performance.now()); }
+    };
+  })();
+  function renderHero(){
+    $("hero-title").innerHTML = mode === "n" ? 'GROWTH<span class="star">*</span>' :
+      '<span class="mom">GROWTH</span><span class="star">*</span>' + (mode === "e" ? "Startups" : "Stars");
+    $("trust").innerHTML = TRUST[mode].map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("");
+    Dots.setSource(HERO_VID[mode]);
+    Dots.redraw();
+  }
+  document.querySelectorAll(".pill").forEach(function(a){
+    a.addEventListener("click", function(ev){ var el = $(a.getAttribute("href").slice(1)); if (!el) return; ev.preventDefault(); el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); });
+  });
+
   /* ── Frente: marca, tema y orden ── */
   function render(){
     document.body.dataset.mode = mode;
     document.body.dataset.theme = mode === "e" ? "light" : "dark";
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (v != null) el.innerHTML = starify(v); });
-    $("logo").innerHTML = starify(NAMES[mode]) + (mode === "n" ? "" : "<small>por GROWTH*</small>");
+    $("logo").innerHTML = starify(NAMES[mode]);
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
     $("marquee").innerHTML = row + row;
     filter = "all"; step = 0;
-    renderDoors(); renderReel(); renderSteps(); pretipo();
+    renderHero(); renderDoors(); renderReel(); renderSteps(); pretipo();
   }
   function setMode(m, animate, scrollTo){
     if (m === mode && !scrollTo) return;
