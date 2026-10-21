@@ -95,6 +95,11 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 .hero{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(560px,84vh,880px);display:flex;flex-direction:column}
 .dots{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;pointer-events:none}
 .hero-src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
+/* Frente con video propio de portada (G*Stars): el video reemplaza la matriz de puntos */
+.hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:0;transition:opacity .8s var(--ease)}
+.hero-veil{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .8s var(--ease);background:radial-gradient(ellipse 58% 52% at 50% 46%,rgba(10,10,10,.8),rgba(10,10,10,.3) 72%,rgba(10,10,10,.55)),linear-gradient(to bottom,rgba(10,10,10,.65),transparent 24%,transparent 72%,var(--bg))}
+.hero.has-bg .hero-bg,.hero.has-bg .hero-veil{opacity:1}
+.hero.has-bg .dots{opacity:0}
 .hero-in{position:relative;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-block:clamp(56px,9vw,110px) 28px}
 .hero-title{font-size:clamp(42px,7.2vw,110px);font-weight:800;letter-spacing:-.045em;line-height:.98;text-wrap:balance}
 .hero-title .mom{font-weight:300;color:var(--mute)}
@@ -341,6 +346,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   <section class="hero o-hero" id="hero">
     <canvas class="dots" id="dots" aria-hidden="true"></canvas>
     <video class="hero-src" id="hero-src" muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1"></video>
+    <video class="hero-bg" id="hero-bg" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+    <div class="hero-veil" aria-hidden="true"></div>
     <div class="wrap hero-in">
       <h1 class="hero-title entra" id="hero-title">GROWTH<span class="star">*</span></h1>
       <p class="hero-sub entra d1" data-t="hero.sub">Producción cinematográfica &amp; growth</p>
@@ -1056,7 +1063,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   var Dots = (function(){
     var hero = $("hero"), cv = $("dots"), ctx = cv.getContext("2d"), src = $("hero-src");
     var off = document.createElement("canvas"), octx = off.getContext("2d", {willReadFrequently:true});
-    var W = 0, H = 0, dpr = 1, cell = 8, cols = 0, rows = 0, vis = true, raf = 0, last = 0, tainted = false, seeds = null;
+    var W = 0, H = 0, dpr = 1, cell = 8, cols = 0, rows = 0, vis = true, raf = 0, last = 0, tainted = false, seeds = null, on = true;
     function sm(a, b, v){ v = Math.min(1, Math.max(0, (v - a) / (b - a))); return v * v * (3 - 2 * v); }
     function size(){
       var r = hero.getBoundingClientRect();
@@ -1113,8 +1120,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         ctx.fill();
       }
     }
-    function loop(t){ raf = 0; if (!vis) return; if (t - last > 33){ last = t; draw(t); } raf = requestAnimationFrame(loop); }
-    function play(){ if (reduce || !src.getAttribute("src")) return; var p = src.play(); if (p && p.catch) p.catch(function(){}); }
+    function loop(t){ raf = 0; if (!vis || !on) return; if (t - last > 33){ last = t; draw(t); } raf = requestAnimationFrame(loop); }
+    function play(){ if (reduce || !on || !src.getAttribute("src")) return; var p = src.play(); if (p && p.catch) p.catch(function(){}); }
     function start(){ if (!raf && vis && !reduce) raf = requestAnimationFrame(loop); play(); }
     src.addEventListener("loadeddata", function(){ if (reduce){ try { src.currentTime = src.duration * .3; } catch(e){} } draw(performance.now()); });
     src.addEventListener("seeked", function(){ if (reduce) draw(0); });
@@ -1129,15 +1136,29 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         if (src.dataset.slug === slug) return;
         src.dataset.slug = slug; tainted = false; src.src = M + "reel/" + slug + ".mp4"; play();
       },
-      redraw:function(){ draw(performance.now()); }
+      redraw:function(){ draw(performance.now()); },
+      setOn:function(b){ on = b; if (b) start(); else src.pause(); }
     };
   })();
+  /* Videos de portada por frente (los que no tienen, usan la matriz de puntos) */
+  var HERO_BG = {c:{d:"hero/hero-stars.mp4", m:"hero/hero-stars-m.mp4", p:"hero/hero-stars.jpg"}};
+  function setHeroBg(){
+    var bg = $("hero-bg"), cfg = HERO_BG[mode], hero = $("hero");
+    if (!cfg){
+      hero.classList.remove("has-bg"); bg.pause(); bg.removeAttribute("src"); bg.removeAttribute("poster"); bg.load(); Dots.setOn(true); return;
+    }
+    var url = M + (innerWidth < 760 ? cfg.m : cfg.d);
+    if (bg.dataset.url !== url){ bg.dataset.url = url; bg.poster = M + cfg.p; bg.src = url; }
+    hero.classList.add("has-bg"); Dots.setOn(false);
+    if (!reduce){ var p = bg.play(); if (p && p.catch) p.catch(function(){}); }
+  }
   function renderHero(){
     $("hero-title").innerHTML = mode === "n" ? 'GROWTH<span class="star">*</span>' :
       '<span class="mom">GROWTH</span><span class="star">*</span>' + (mode === "e" ? "Startups" : "Stars");
     $("trust").innerHTML = TRUST[mode].map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("");
     Dots.setSource(HERO_VID[mode]);
     Dots.redraw();
+    setHeroBg();
   }
   document.querySelectorAll(".pill").forEach(function(a){
     a.addEventListener("click", function(ev){ var el = $(a.getAttribute("href").slice(1)); if (!el) return; ev.preventDefault(); el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); });
