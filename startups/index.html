@@ -106,6 +106,7 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 .hero-title .star{font-size:.62em;vertical-align:.5em;margin:0 .02em;letter-spacing:0}
 .hero-sub{margin-top:18px;font-size:clamp(13px,1.35vw,17px);font-weight:800;letter-spacing:.3em;text-transform:uppercase}
 .hero-text{margin-top:14px;font-size:clamp(16px,1.5vw,19px);color:var(--mute);max-width:42ch;text-wrap:balance}
+.hero-title,.hero-sub,.hero-text{text-shadow:0 0 2px var(--bg),0 0 14px var(--bg),0 0 30px var(--bg),0 0 48px var(--bg)}   /* halo del fondo: legible sobre los puntos sin franja */
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px}
 .pill{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-size:15px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--fg);color:var(--bg);transition:transform .25s var(--ease)}
 .pill:hover{transform:translateY(-2px)}
@@ -1074,10 +1075,9 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       seeds = new Float32Array(cols * rows);
       for (var i = 0; i < seeds.length; i++) seeds[i] = ((i * 2654435761) >>> 0) / 4294967296;
     }
-    /* Los puntos viven a los lados y dejan el centro libre para el texto; en el celular, debajo */
+    /* Los puntos cubren todo el ancho; solo se desvanecen arriba (barra) y abajo (nombres) */
     function mask(x, y){
-      if (W < 700) return sm(.6, .74, y) * (1 - sm(.93, 1, y));
-      return sm(.15, .35, Math.abs(x - .5)) * sm(.1, .28, y) * (1 - sm(.8, .94, y));
+      return sm(.02, .14, y) * (1 - sm(.86, .98, y));
     }
     function sample(){
       if (tainted || src.readyState < 2 || !src.videoWidth) return null;
