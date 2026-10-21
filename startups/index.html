@@ -61,10 +61,9 @@ body[data-theme="light"] .star{color:inherit;background:var(--acc);padding:0 .04
 
 /* Orden de secciones por frente: cada marca cuenta la historia en su orden */
 main{display:flex;flex-direction:column}
-.o-hero{order:0}.o-camino{order:1}.o-marquee{order:2}.o-reel{order:3}.o-flyers{order:4}.o-pasos{order:5}.o-promesas{order:6}.o-dx{order:7}.o-end{order:8}
+.o-hero{order:-2}.o-marquee{order:-1}.o-camino{order:1}   /* la marquesina va siempre pegada debajo de la portada */.o-reel{order:3}.o-flyers{order:4}.o-pasos{order:5}.o-promesas{order:6}.o-dx{order:7}.o-end{order:8}
 body[data-mode="e"] .o-pasos{order:2}
 body[data-mode="e"] .o-promesas{order:3}
-body[data-mode="e"] .o-marquee{order:4}
 body[data-mode="e"] .o-reel{order:5}
 .o-flyers{border-top:0;padding-top:0}
 
