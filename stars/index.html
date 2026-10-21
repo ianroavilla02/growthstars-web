@@ -1054,7 +1054,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
 
   /* ── Portada: matriz de puntos en vivo sobre un video propio (el efecto de la referencia) ── */
-  var HERO_VID = {n:"topboy-aftermovie", c:"rasca-la-kalle", e:"cumbre"};
+  var HERO_VID = {n:"reel/topboy-aftermovie", c:"hero/hero-stars-m", e:"reel/cumbre"};
   var TRUST = {
     n:["TOPBOY","La Rasca Salinera","Cumbre","SOMOSCABAL","Feria del Diseño","Marlon"],
     c:["TOPBOY","La Rasca Salinera","Marlon","Kei Linch","Jhonny Rivera","Jhon Alex Castaño"],
@@ -1103,13 +1103,16 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         for (var c = 0; c < cols; c++){
           var x = (c + .5) / cols, m = mask(x, y);
           if (m < .02) continue;
-          var i = r * cols + c, l;
-          if (data){ var k = i * 4; l = (data[k] * .299 + data[k + 1] * .587 + data[k + 2] * .114) / 255; } else l = dark ? proc(x, y, t) : 1 - proc(x, y, t);
+          var i = r * cols + c, l, gr = false;
+          if (data){
+            var k = i * 4; l = (data[k] * .299 + data[k + 1] * .587 + data[k + 2] * .114) / 255;
+            gr = data[k + 1] > 110 && data[k + 1] > data[k] * 1.35 && data[k + 1] > data[k + 2] * 1.35;   /* el verde del video sigue verde */
+          } else l = dark ? proc(x, y, t) : 1 - proc(x, y, t);
           var v = Math.max(0, ((dark ? l : 1 - l) - .18) / .72);
           v = Math.pow(Math.min(1, v), 1.35) * m;
           if (v < .08) continue;
           var rad = rmax * v, cx = c * cell + cell / 2;
-          if (dark && seeds[i] < .035 && v > .45){ greens.push(cx, cy, rad); continue; }
+          if (dark && (gr || (seeds[i] < .035 && v > .45))){ greens.push(cx, cy, rad); continue; }
           ctx.moveTo(cx + rad, cy); ctx.arc(cx, cy, rad, 0, 6.2832);
         }
       }
@@ -1134,14 +1137,14 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     return {
       setSource:function(slug){
         if (src.dataset.slug === slug) return;
-        src.dataset.slug = slug; tainted = false; src.src = M + "reel/" + slug + ".mp4"; play();
+        src.dataset.slug = slug; tainted = false; src.src = M + slug + ".mp4"; play();
       },
       redraw:function(){ draw(performance.now()); },
       setOn:function(b){ on = b; if (b) start(); else src.pause(); }
     };
   })();
   /* Videos de portada por frente (los que no tienen, usan la matriz de puntos) */
-  var HERO_BG = {c:{d:"hero/hero-stars.mp4", m:"hero/hero-stars-m.mp4", p:"hero/hero-stars.jpg"}};
+  var HERO_BG = {};   /* p. ej. {c:{d:"hero/x.mp4", m:"hero/x-m.mp4", p:"hero/x.jpg"}} para mostrar un video directo en vez de la matriz */
   function setHeroBg(){
     var bg = $("hero-bg"), cfg = HERO_BG[mode], hero = $("hero");
     if (!cfg){
