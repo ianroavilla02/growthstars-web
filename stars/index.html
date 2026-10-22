@@ -69,7 +69,7 @@ body[data-mode="e"] .o-reel{order:5}
 
 /* ── Barra ─────────────────────────────── */
 .bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background-color .6s var(--ease)}
-.bar .wrap{display:flex;align-items:center;justify-content:space-between;gap:14px;height:60px}
+.bar .wrap{display:flex;align-items:center;justify-content:center;gap:14px;height:60px}
 .logo{font-weight:900;font-size:20px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap}
 .logo small{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--mute);margin-left:8px;text-transform:uppercase}
 .rec{display:flex;align-items:center;gap:9px;font-size:12px;font-weight:700;letter-spacing:.14em;color:var(--mute)}
@@ -95,9 +95,9 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 /* Logos reales (ITC Franklin Gothic LT), como máscara: toman el color del tema */
 .logo-img{display:inline-block;vertical-align:middle;background:var(--fg);aspect-ratio:var(--ar);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
 .logo-img.small{height:20px;width:calc(20px * var(--ar))}
-.hero-title{--lw:1080px;filter:drop-shadow(0 0 14px var(--bg)) drop-shadow(0 0 30px var(--bg));line-height:0}
-body[data-mode="n"] .hero-title{--lw:820px}
-.logo-img.big{width:min(var(--lw),88vw)}
+.hero-title{--lw:756px;filter:drop-shadow(0 0 14px var(--bg)) drop-shadow(0 0 30px var(--bg));line-height:0}
+body[data-mode="n"] .hero-title{--lw:574px}
+.logo-img.big{width:min(var(--lw),62vw)}
 .dots{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;pointer-events:none}
 .hero-src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
 /* Frente con video propio de portada (G*Stars): el video reemplaza la matriz de puntos */
@@ -151,17 +151,25 @@ body[data-mode="n"] .hero-title{--lw:820px}
 /* Puertas a pantalla completa: dos mitades rectangulares */
 .doors-full{border-top:1px solid var(--line)}
 .doors-full .doors{gap:0}
-.doors-full .door{border-radius:0;box-shadow:none;min-height:clamp(440px,72vh,780px);padding:clamp(28px,4.5vw,64px)}
+.doors-full .door{border-radius:0;box-shadow:none;min-height:clamp(352px,57.6vh,624px);padding:clamp(28px,4.5vw,64px)}
 .doors-full .door+.door{border-left:1px solid var(--line)}
 .doors-full .door:hover,.doors-full .door[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--hi)}
 .door.light{--bg:#F4F4F2;--fg:#0A0A0A;--mute:#5C5F57;--line:#D8D8D2;--panel:#F4F4F2;--veil:rgba(244,244,242,.5);--hi:#0A0A0A;color:var(--fg)}
-.door .logo-img{width:min(100%,540px);margin-top:18px}
+.door .logo-img{width:min(70%,378px)}
 @media (max-width:900px){.doors-full .door+.door{border-left:0;border-top:1px solid var(--line)}}
 
 /* ── Marquesina ───────────────────────── */
-.marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:18px;white-space:nowrap}
-.marquee-in{display:inline-flex;gap:34px;animation:corre 38s linear infinite;font-size:clamp(22px,3vw,40px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
-.marquee-in span{display:inline-flex;align-items:center;gap:34px}
+.marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:13px;white-space:nowrap}
+.marquee-in{display:inline-flex;gap:24px;animation:corre 38s linear infinite;font-size:clamp(15px,2.1vw,28px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.marquee-in span{display:inline-flex;align-items:center;gap:24px}
+/* Diagnóstico en ventana emergente */
+.dxm{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(6,6,6,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .22s}
+.dxm[hidden]{display:none}
+.dxm.on{opacity:1}
+.dxm-card{position:relative;width:min(560px,100%);max-height:calc(100vh - 32px);max-height:calc(100svh - 32px);overflow:auto;border-radius:20px;transform:translateY(14px) scale(.98);transition:transform .3s var(--ease)}
+.dxm.on .dxm-card{transform:none}
+.dxm-x{top:14px;right:14px;z-index:2;background:var(--line);color:var(--fg)}
+.dx-cta{display:flex;align-items:center;align-self:center}
 .marquee-in span::after{content:"✱";color:var(--acc);font-size:.7em}
 body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 @keyframes corre{to{transform:translateX(-50%)}}
@@ -346,8 +354,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 
 <header class="bar">
   <div class="wrap">
-    <a class="logo" href="#top" id="logo">GROWTH<span class="star">*</span></a>
-    <div class="rec" aria-hidden="true"><span class="dot"></span><span>REC</span><span class="tc" id="tc">00:00:00:00</span></div>
     <div class="switch" role="group" aria-label="Elegir frente">
       <button type="button" id="sw-e" data-mode="e" aria-pressed="false"><span class="ico"></span>Startups</button>
       <button type="button" id="sw-c" data-mode="c" aria-pressed="false"><span class="ico"></span>Stars</button>
@@ -511,9 +517,13 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         <div class="contact-line"><span>+57 313 363 7653</span><span>growthstarscolombia@gmail.com</span></div>
       </div>
 
+      <div class="dx-cta"><button type="button" class="btn" data-open-dx><span data-t="dx.fh">Pide tu diagnóstico</span> →</button></div>
+      <div class="dxm" id="dxm" role="dialog" aria-modal="true" aria-labelledby="dxm-t" hidden>
+      <div class="dxm-card">
+      <button type="button" class="v-btn dxm-x" id="dxm-x" aria-label="Cerrar">✕</button>
       <form class="form" id="form" novalidate>
         <div id="form-body" style="display:grid;gap:18px">
-          <h3 data-t="dx.fh">Pide tu diagnóstico</h3>
+          <h3 id="dxm-t" data-t="dx.fh">Pide tu diagnóstico</h3>
           <div class="field">
             <label for="f-nombre" data-t="dx.ln">Tu nombre</label>
             <input type="text" id="f-nombre" autocomplete="name" placeholder="Nombre y apellido" aria-describedby="e-nombre">
@@ -558,6 +568,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
           <button type="button" class="linkbtn" id="fix">Corregir los datos</button>
         </div>
       </form>
+      </div>
+      </div>
     </div>
   </section>
 
@@ -799,7 +811,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       var d = $("door-" + k), v = d.querySelector("video"), s = DOORVID[mode][k], body = d.querySelector(".door-body"), go = d.querySelector(".go");
       if (mode === "n"){
         var b = k === "p" ? "e" : "c";
-        body.innerHTML = '<div class="tag">' + (b === "e" ? "Corporativos" : "Industria musical") + '</div>' + logoHTML(b) +
+        body.innerHTML = logoHTML(b) +
           '<p>' + esc(b === "e" ? "Growth Hacking y Branding para Startups y Marcas." : "Growth Hacking & Dirección Creativa para Sellos y Productoras.") + '</p>';
         go.innerHTML = 'Entrar <i>→</i>';
         d.classList.toggle("light", b === "e");
@@ -1177,16 +1189,29 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     Dots.redraw();
     setHeroBg();
   }
-  document.querySelectorAll(".pill").forEach(function(a){
-    a.addEventListener("click", function(ev){ var el = $(a.getAttribute("href").slice(1)); if (!el) return; ev.preventDefault(); el.scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); });
-  });
+  /* El diagnóstico se abre en una ventana emergente, desde la portada o desde su sección */
+  var dxm = $("dxm"), dxOpener = null;
+  function openDx(opener){
+    dxOpener = opener || null; dxm.hidden = false;
+    requestAnimationFrame(function(){ dxm.classList.add("on"); });
+    document.documentElement.classList.add("lock");
+    setTimeout(function(){ var f = $("f-nombre"); if (f && !$("form-body").hidden) f.focus({preventScroll:true}); else $("done").focus({preventScroll:true}); }, 60);
+  }
+  function closeDx(){
+    dxm.classList.remove("on"); document.documentElement.classList.remove("lock");
+    setTimeout(function(){ dxm.hidden = true; }, 220);
+    if (dxOpener) dxOpener.focus({preventScroll:true});
+  }
+  document.querySelectorAll(".pill, [data-open-dx]").forEach(function(a){ a.addEventListener("click", function(ev){ ev.preventDefault(); openDx(a); }); });
+  $("dxm-x").addEventListener("click", closeDx);
+  dxm.addEventListener("click", function(ev){ if (ev.target === dxm) closeDx(); });
+  addEventListener("keydown", function(ev){ if (ev.key === "Escape" && !dxm.hidden) closeDx(); });
 
   /* ── Frente: marca, tema y orden ── */
   function render(){
     document.body.dataset.mode = mode;
     document.body.dataset.theme = mode === "e" ? "light" : "dark";
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (v != null) el.innerHTML = starify(v); });
-    $("logo").innerHTML = logoHTML(mode, "small");
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
     $("marquee").innerHTML = row + row;
@@ -1208,18 +1233,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
   document.querySelectorAll(".switch button").forEach(function(b){ b.addEventListener("click", function(){ setMode(b.dataset.mode, true, null); }); });
   document.querySelectorAll(".brand").forEach(function(b){ b.addEventListener("click", function(){ setMode(b.dataset.mode, true, $("camino")); }); });
-  $("logo").addEventListener("click", function(ev){ ev.preventDefault(); scrollTo({top:0, behavior: reduce ? "auto" : "smooth"}); });
 
-  /* ── Timecode: la página dura 4 minutos a 24 fps; el scroll es la reproducción ── */
-  var tc = $("tc"), FPS = 24, TOTAL = 4 * 60 * FPS, ticking = false;
-  function pad(n){ return (n < 10 ? "0" : "") + n; }
-  function updateTC(){
-    ticking = false;
-    var max = document.documentElement.scrollHeight - innerHeight;
-    var f = Math.round((max > 0 ? Math.min(1, scrollY / max) : 0) * TOTAL), s = Math.floor(f / FPS);
-    tc.textContent = "00:" + pad(Math.floor(s / 60)) + ":" + pad(s % 60) + ":" + pad(f % FPS);
-  }
-  addEventListener("scroll", function(){ if (!ticking){ ticking = true; requestAnimationFrame(updateTC); } }, {passive:true});
 
   /* ── Arranque: #stars o #startups (o la ruta /stars, /startups) abren el frente; -eventos o -proyectos eligen la vertical ── */
   var h = (location.hash || "").slice(1).toLowerCase() || (location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
@@ -1227,7 +1241,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   render();
   if (/-eventos$/.test(h)){ vert = "v"; filter = "v"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
   else if (/-proyectos$/.test(h)){ vert = "p"; filter = "p"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
-  updateTC();
 })();
 </script>
 
