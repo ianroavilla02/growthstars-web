@@ -68,7 +68,9 @@ body[data-mode="e"] .o-reel{order:5}
 .o-flyers{border-top:0;padding-top:0}
 
 /* ── Barra ─────────────────────────────── */
-.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:50;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line);transition:background-color .6s var(--ease)}
+/* Sin barra: el switch flota como una isla sobre la página */
+.bar{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;pointer-events:none}
+.bar .switch{pointer-events:auto;background:var(--glass);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:background-color .6s var(--ease)}
 .bar .wrap{display:flex;align-items:center;justify-content:center;gap:14px;height:60px}
 .logo{font-weight:900;font-size:20px;letter-spacing:-.03em;text-decoration:none;white-space:nowrap}
 .logo small{font-size:11px;font-weight:700;letter-spacing:.14em;color:var(--mute);margin-left:8px;text-transform:uppercase}
@@ -91,7 +93,7 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 /* ── Portada ──────────────────────────── */
 /* Distribución de la referencia: título centrado, subtítulo, texto, pastilla con resplandor, nombres al pie;
    detrás, una matriz de puntos generada en vivo desde un video propio */
-.hero{position:relative;overflow:hidden;isolation:isolate;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px);display:flex;flex-direction:column}   /* ocupa la pantalla bajo la barra */
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:100vh;min-height:100svh;display:flex;flex-direction:column}   /* ocupa toda la pantalla; el switch flota encima */
 /* Logos reales (ITC Franklin Gothic LT), como máscara: toman el color del tema */
 .logo-img{display:inline-block;vertical-align:middle;background:var(--fg);aspect-ratio:var(--ar);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
 .logo-img.small{height:20px;width:calc(20px * var(--ar))}
