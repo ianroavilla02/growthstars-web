@@ -401,7 +401,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   <div class="marquee o-marquee" aria-hidden="true"><div class="marquee-in" id="marquee"></div></div>
 
   <!-- Reel -->
-  <section class="sec o-reel" id="reel">
+  <section class="sec o-reel" id="reel" data-show="e c">
     <div class="wrap">
       <div class="reel-head">
         <div>
@@ -426,7 +426,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 
   <!-- Esfera de flyers (G*Stars y GROWTH*) -->
-  <section class="sec o-flyers" id="flyers" data-show="n c">
+  <section class="sec o-flyers" id="flyers" data-show="c">
     <div class="wrap">
       <span class="lbl">Diseño para eventos</span>
       <h2 class="h2">Piezas que se mueven.</h2>
@@ -439,7 +439,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 
   <!-- Los 4 pasos -->
-  <section class="sec o-pasos" id="pasos">
+  <section class="sec o-pasos" id="pasos" data-show="e c">
     <div class="wrap">
       <div class="steps-head">
         <div>
@@ -489,7 +489,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 
   <!-- Promesas -->
-  <section class="sec o-promesas" id="promesas">
+  <section class="sec o-promesas" id="promesas" data-show="e c">
     <div class="wrap">
       <span class="lbl">Por qué confiar</span>
       <h2 class="h2">Tres promesas.</h2>
@@ -502,7 +502,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 
   <!-- Diagnóstico -->
-  <section class="sec o-dx" id="diagnostico">
+  <section class="sec o-dx" id="diagnostico" data-show="e c">
     <div class="wrap dx">
       <div>
         <span class="lbl">El primer paso</span>
@@ -574,7 +574,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     </div>
   </section>
 
-  <section class="end o-end">
+  <section class="end o-end" data-show="e c">
     <div class="wrap">
       <q data-t="end">Dos frentes. Un solo método.</q>
       <div class="end-foot">
@@ -1186,6 +1186,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
   /* El diagnóstico se abre en una ventana emergente, desde la portada o desde su sección */
   var dxm = $("dxm"), dxOpener = null;
+  document.body.appendChild(dxm);   /* fuera de su sección: así abre también en GROWTH*, donde la sección no se muestra */
   function openDx(opener){
     dxOpener = opener || null; dxm.hidden = false;
     requestAnimationFrame(function(){ dxm.classList.add("on"); });
