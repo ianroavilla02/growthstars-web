@@ -91,7 +91,13 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 /* ── Portada ──────────────────────────── */
 /* Distribución de la referencia: título centrado, subtítulo, texto, pastilla con resplandor, nombres al pie;
    detrás, una matriz de puntos generada en vivo desde un video propio */
-.hero{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(560px,84vh,880px);display:flex;flex-direction:column}
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:calc(100vh - 60px);min-height:calc(100svh - 60px);display:flex;flex-direction:column}   /* ocupa la pantalla bajo la barra */
+/* Logos reales (ITC Franklin Gothic LT), como máscara: toman el color del tema */
+.logo-img{display:inline-block;vertical-align:middle;background:var(--fg);aspect-ratio:var(--ar);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
+.logo-img.small{height:20px;width:calc(20px * var(--ar))}
+.hero-title{--lw:1080px;filter:drop-shadow(0 0 14px var(--bg)) drop-shadow(0 0 30px var(--bg));line-height:0}
+body[data-mode="n"] .hero-title{--lw:820px}
+.logo-img.big{width:min(var(--lw),88vw)}
 .dots{position:absolute;inset:0;z-index:-1;width:100%;height:100%;display:block;pointer-events:none}
 .hero-src{position:absolute;left:0;top:0;width:2px;height:2px;opacity:0;pointer-events:none}
 /* Frente con video propio de portada (G*Stars): el video reemplaza la matriz de puntos */
@@ -105,7 +111,7 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 .hero-title .star{font-size:.62em;vertical-align:.5em;margin:0 .02em;letter-spacing:0}
 .hero-sub{margin-top:18px;font-size:clamp(13px,1.35vw,17px);font-weight:800;letter-spacing:.3em;text-transform:uppercase}
 .hero-text{margin-top:14px;font-size:clamp(16px,1.5vw,19px);color:var(--mute);max-width:42ch;text-wrap:balance}
-.hero-title,.hero-sub,.hero-text{text-shadow:0 0 2px var(--bg),0 0 14px var(--bg),0 0 30px var(--bg),0 0 48px var(--bg)}   /* halo del fondo: legible sobre los puntos sin franja */
+.hero-sub,.hero-text{text-shadow:0 0 2px var(--bg),0 0 14px var(--bg),0 0 30px var(--bg),0 0 48px var(--bg)}   /* halo del fondo: legible sobre los puntos sin franja */
 .hero-ctas{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin-top:32px}
 .pill{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-size:15px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--fg);color:var(--bg);transition:transform .25s var(--ease)}
 .pill:hover{transform:translateY(-2px)}
@@ -142,6 +148,15 @@ body[data-mode="c"] .switch{--k:100%;--ko:1}
 .door:hover .go{box-shadow:0 0 0 6px rgb(183 255 6 / .2)}
 .door .go i{font-style:normal;transition:transform .25s}
 .door:hover .go i{transform:translateX(4px)}
+/* Puertas a pantalla completa: dos mitades rectangulares */
+.doors-full{border-top:1px solid var(--line)}
+.doors-full .doors{gap:0}
+.doors-full .door{border-radius:0;box-shadow:none;min-height:clamp(440px,72vh,780px);padding:clamp(28px,4.5vw,64px)}
+.doors-full .door+.door{border-left:1px solid var(--line)}
+.doors-full .door:hover,.doors-full .door[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--hi)}
+.door.light{--bg:#F4F4F2;--fg:#0A0A0A;--mute:#5C5F57;--line:#D8D8D2;--panel:#F4F4F2;--veil:rgba(244,244,242,.5);--hi:#0A0A0A;color:var(--fg)}
+.door .logo-img{width:min(100%,540px);margin-top:18px}
+@media (max-width:900px){.doors-full .door+.door{border-left:0;border-top:1px solid var(--line)}}
 
 /* ── Marquesina ───────────────────────── */
 .marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:18px;white-space:nowrap}
@@ -354,43 +369,25 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       <p class="hero-text entra d2" data-t="hero.txt">Growth Hacking, Dirección Creativa y Branding para marcas, sellos y productoras.</p>
       <div class="hero-ctas entra d3">
         <a class="pill" href="#diagnostico" data-t="hero.cta">Pide un diagnóstico gratis</a>
-        <a class="pill ghost" href="#reel">Ver el trabajo</a>
-      </div>
-      <div class="brands" data-show="n">
-        <button type="button" class="brand" data-mode="e"><b>GROWTH<span class="star">*</span>Startups</b><span>Startups y marcas</span></button>
-        <button type="button" class="brand" data-mode="c"><b>GROWTH<span class="star">*</span>Stars</b><span>Sellos, productoras y artistas</span></button>
       </div>
     </div>
     <div class="wrap trust" id="trust" aria-label="Con quién hemos trabajado"></div>
   </section>
 
   <!-- Puertas: Proyectos / Eventos -->
-  <section class="sec o-camino" id="camino">
-    <div class="wrap">
-      <div class="doors-head">
-        <h2 class="h2">¿Qué quieres<br>hacer crecer?</h2>
-        <p class="sub" data-t="doors.s">Proyectos y eventos, con el mismo método.</p>
-      </div>
-      <div class="doors">
-        <button type="button" class="door" id="door-p" data-vert="p" aria-pressed="false">
-          <video muted loop playsinline preload="none"></video>
-          <div>
-            <div class="tag">Proyectos</div>
-            <h3 data-t="dp.h">Una marca, un artista o una empresa</h3>
-            <p data-t="dp.p">Para que se vea bien, venda más y se sepa por qué.</p>
-          </div>
-          <span class="go">Ver proyectos <i>→</i></span>
-        </button>
-        <button type="button" class="door" id="door-v" data-vert="v" aria-pressed="false">
-          <video muted loop playsinline preload="none"></video>
-          <div>
-            <div class="tag">Eventos</div>
-            <h3 data-t="dv.h">Un concierto, una feria o un lanzamiento</h3>
-            <p data-t="dv.p">Para llenar el lugar y que se recuerde.</p>
-          </div>
-          <span class="go">Ver eventos <i>→</i></span>
-        </button>
-      </div>
+  <!-- En GROWTH*: izquierda Corporativos (G*Startups) · derecha Industria musical (G*Stars). En cada frente: Proyectos · Eventos -->
+  <section class="o-camino doors-full" id="camino">
+    <div class="doors">
+      <button type="button" class="door" id="door-p" data-vert="p" aria-pressed="false">
+        <video muted loop playsinline preload="none"></video>
+        <div class="door-body"></div>
+        <span class="go"></span>
+      </button>
+      <button type="button" class="door" id="door-v" data-vert="v" aria-pressed="false">
+        <video muted loop playsinline preload="none"></video>
+        <div class="door-body"></div>
+        <span class="go"></span>
+      </button>
     </div>
   </section>
 
@@ -728,7 +725,9 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     {s:"rasca-jhon-alex", l:"c", v:"v", ti:"Jhon Alex Castaño", ty:"Presentación de artista", ar:9/16}
   ];
   /* Video de cada puerta, por frente */
-  var DOORVID = {n:{p:"somoscabal", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"marlon-tentacion", v:"rasca-la-kalle"}};
+  var DOORVID = {n:{p:"cumbre", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"marlon-tentacion", v:"rasca-la-kalle"}};
+  /* Logos reales sin sombra; ar = ancho/alto del PNG recortado */
+  var LOGOS = {n:{f:"growth", ar:5.9867}, e:{f:"growth-startups", ar:8.7857}, c:{f:"growth-stars", ar:8.9474}};
 
   /* ── Flyers (los mismos de la web de G*S) ── */
   var EVENTOS = [{"n":"01","s":[{"t":"img","src":"e01-2.webp","th":"e01-2-t.webp","w":1170,"h":1456},{"t":"vid","src":"e01-1.mp4","th":"e01-1-t.webp","w":720,"h":896}]},{"n":"02","s":[{"t":"img","src":"e02-1.webp","th":"e02-1-t.webp","w":1400,"h":1750},{"t":"vid","src":"e02-2.mp4","th":"e02-2-t.webp","w":720,"h":900}]},{"n":"03","s":[{"t":"vid","src":"e03-1.mp4","th":"e03-1-t.webp","w":720,"h":900}]},{"n":"04","s":[{"t":"img","src":"e04-1.webp","th":"e04-1-t.webp","w":1353,"h":1800},{"t":"vid","src":"e04-2.mp4","th":"e04-2-t.webp","w":720,"h":958}]},{"n":"05","s":[{"t":"img","src":"e05-1.webp","th":"e05-1-t.webp","w":1400,"h":1750}]},{"n":"06","s":[{"t":"vid","src":"e06-2.mp4","th":"e06-2-t.webp","w":720,"h":900},{"t":"img","src":"e06-1.webp","th":"e06-1-t.webp","w":1170,"h":1463}]},{"n":"07","s":[{"t":"vid","src":"e07-1.mp4","th":"e07-1-t.webp","w":720,"h":900}]},{"n":"08","s":[{"t":"img","src":"e08-3.webp","th":"e08-3-t.webp","w":1400,"h":1750},{"t":"img","src":"e08-1.webp","th":"e08-1-t.webp","w":1400,"h":1750},{"t":"img","src":"e08-2.webp","th":"e08-2-t.webp","w":1400,"h":1750}]},{"n":"09","s":[{"t":"vid","src":"e09-1.mp4","th":"e09-1-t.webp","w":360,"h":450},{"t":"vid","src":"e09-2.mp4","th":"e09-2-t.webp","w":360,"h":450},{"t":"vid","src":"e09-3.mp4","th":"e09-3-t.webp","w":360,"h":450}]},{"n":"10","s":[{"t":"vid","src":"e10-2.mp4","th":"e10-2-t.webp","w":720,"h":960},{"t":"img","src":"e10-1.webp","th":"e10-1-t.webp","w":1086,"h":1448}]},{"n":"11","s":[{"t":"img","src":"e11-2.webp","th":"e11-2-t.webp","w":1170,"h":1463},{"t":"img","src":"e11-1.webp","th":"e11-1-t.webp","w":1170,"h":1463}]},{"n":"12","s":[{"t":"img","src":"e12-1.webp","th":"e12-1-t.webp","w":1170,"h":1458}]},{"n":"13","s":[{"t":"img","src":"e13-1.webp","th":"e13-1-t.webp","w":1170,"h":1463}]},{"n":"14","s":[{"t":"img","src":"e14-1.webp","th":"e14-1-t.webp","w":872,"h":1090}]},{"n":"15","s":[{"t":"img","src":"e15-1.webp","th":"e15-1-t.webp","w":470,"h":587}]},{"n":"16","s":[{"t":"img","src":"e16-1.webp","th":"e16-1-t.webp","w":446,"h":558},{"t":"img","src":"e16-2.webp","th":"e16-2-t.webp","w":445,"h":556}]},{"n":"17","s":[{"t":"img","src":"e17-1.webp","th":"e17-1-t.webp","w":868,"h":1085}]}];
@@ -791,10 +790,26 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   document.querySelectorAll(".chips .chip").forEach(function(b){ b.addEventListener("click", function(){ filter = b.dataset.f; renderReel(); }); });
 
   /* ── Puertas: Proyectos / Eventos ── */
+  function logoHTML(m, cls){
+    var L = LOGOS[m];
+    return '<span class="logo-img ' + (cls || "") + '" role="img" aria-label="' + esc(NAMES[m]) + '" style="--logo:url(' + M + 'logos/' + L.f + '.png);--ar:' + L.ar + '"></span>';
+  }
   function renderDoors(){
     ["p","v"].forEach(function(k){
-      var d = $("door-" + k), v = d.querySelector("video"), s = DOORVID[mode][k];
-      d.setAttribute("aria-pressed", String(vert === k && filter === k));
+      var d = $("door-" + k), v = d.querySelector("video"), s = DOORVID[mode][k], body = d.querySelector(".door-body"), go = d.querySelector(".go");
+      if (mode === "n"){
+        var b = k === "p" ? "e" : "c";
+        body.innerHTML = '<div class="tag">' + (b === "e" ? "Corporativos" : "Industria musical") + '</div>' + logoHTML(b) +
+          '<p>' + esc(b === "e" ? "Growth Hacking y Branding para Startups y Marcas." : "Growth Hacking & Dirección Creativa para Sellos y Productoras.") + '</p>';
+        go.innerHTML = 'Entrar <i>→</i>';
+        d.classList.toggle("light", b === "e");
+        d.setAttribute("aria-pressed", "false");
+      } else {
+        body.innerHTML = '<div class="tag">' + (k === "p" ? "Proyectos" : "Eventos") + '</div><h3>' + esc(t(k === "p" ? "dp.h" : "dv.h")) + '</h3><p>' + esc(t(k === "p" ? "dp.p" : "dv.p")) + '</p>';
+        go.innerHTML = (k === "p" ? "Ver proyectos" : "Ver eventos") + ' <i>→</i>';
+        d.classList.remove("light");
+        d.setAttribute("aria-pressed", String(vert === k && filter === k));
+      }
       if (v.dataset.src !== M + "reel/" + s + ".mp4"){
         v.pause(); v.removeAttribute("src"); v.load();
         v.dataset.src = M + "reel/" + s + ".mp4";
@@ -808,6 +823,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     d.addEventListener("focus", function(){ playIn(d); });
     d.addEventListener("blur", function(){ pauseIn(d); });
     d.addEventListener("click", function(){
+      if (mode === "n"){ setMode(d.dataset.vert === "p" ? "e" : "c", true, $("top")); return; }
       vert = d.dataset.vert; filter = vert; step = 0;
       renderDoors(); renderReel(); renderSteps();
       $("reel").scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"});
@@ -1074,15 +1090,15 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       seeds = new Float32Array(cols * rows);
       for (var i = 0; i < seeds.length; i++) seeds[i] = ((i * 2654435761) >>> 0) / 4294967296;
     }
-    /* Los puntos cubren todo el ancho; solo se desvanecen arriba (barra) y abajo (nombres) */
-    function mask(x, y){
-      return sm(.02, .14, y) * (1 - sm(.86, .98, y));
-    }
+    /* Los puntos cubren toda la portada, sin desvanecidos arriba ni abajo */
+    function mask(x, y){ return 1; }
     function sample(){
       if (tainted || src.readyState < 2 || !src.videoWidth) return null;
       try {
-        var vw = src.videoWidth, vh = src.videoHeight, s = Math.max(cols / vw, rows / vh), dw = vw * s, dh = vh * s;
-        octx.drawImage(src, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
+        /* recorte del 6% por lado: saca los rótulos que Veo dejó en las esquinas */
+        var x0 = src.videoWidth * .06, y0 = src.videoHeight * .06, vw = src.videoWidth - x0 * 2, vh = src.videoHeight - y0 * 2;
+        var s = Math.max(cols / vw, rows / vh), dw = vw * s, dh = vh * s;
+        octx.drawImage(src, x0, y0, vw, vh, (cols - dw) / 2, (rows - dh) / 2, dw, dh);
         return octx.getImageData(0, 0, cols, rows).data;
       } catch(e){ tainted = true; return null; }
     }
@@ -1155,8 +1171,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     if (!reduce){ var p = bg.play(); if (p && p.catch) p.catch(function(){}); }
   }
   function renderHero(){
-    $("hero-title").innerHTML = mode === "n" ? 'GROWTH<span class="star">*</span>' :
-      '<span class="mom">GROWTH</span><span class="star">*</span>' + (mode === "e" ? "Startups" : "Stars");
+    $("hero-title").innerHTML = logoHTML(mode, "big");
     $("trust").innerHTML = TRUST[mode].map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("");
     Dots.setSource(HERO_VID[mode]);
     Dots.redraw();
@@ -1171,7 +1186,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     document.body.dataset.mode = mode;
     document.body.dataset.theme = mode === "e" ? "light" : "dark";
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (v != null) el.innerHTML = starify(v); });
-    $("logo").innerHTML = starify(NAMES[mode]);
+    $("logo").innerHTML = logoHTML(mode, "small");
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
     $("marquee").innerHTML = row + row;
