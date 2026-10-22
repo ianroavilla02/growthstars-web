@@ -159,9 +159,9 @@ body[data-mode="n"] .hero-title{--lw:574px}
 @media (max-width:900px){.doors-full .door+.door{border-left:0;border-top:1px solid var(--line)}}
 
 /* ── Marquesina ───────────────────────── */
-.marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:13px;white-space:nowrap}
-.marquee-in{display:inline-flex;gap:24px;animation:corre 38s linear infinite;font-size:clamp(15px,2.1vw,28px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
-.marquee-in span{display:inline-flex;align-items:center;gap:24px}
+.marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:8px;white-space:nowrap}
+.marquee-in{display:inline-flex;gap:14px;animation:corre 38s linear infinite;font-size:clamp(11px,1.26vw,17px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.marquee-in span{display:inline-flex;align-items:center;gap:14px}
 /* Diagnóstico en ventana emergente */
 .dxm{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(6,6,6,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .22s}
 .dxm[hidden]{display:none}
@@ -377,7 +377,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         <a class="pill" href="#diagnostico" data-t="hero.cta">Pide un diagnóstico gratis</a>
       </div>
     </div>
-    <div class="wrap trust" id="trust" aria-label="Con quién hemos trabajado"></div>
   </section>
 
   <!-- Puertas: Proyectos / Eventos -->
@@ -1083,11 +1082,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 
   /* ── Portada: matriz de puntos en vivo sobre un video propio (el efecto de la referencia) ── */
   var HERO_VID = {n:"hero/hero-stars-m", c:"reel/topboy-aftermovie", e:"reel/cumbre"};   /* GROWTH* = el video de datos · G*Stars = el concierto */
-  var TRUST = {
-    n:["TOPBOY","La Rasca Salinera","Cumbre","SOMOSCABAL","Feria del Diseño","Marlon"],
-    c:["TOPBOY","La Rasca Salinera","Marlon","Kei Linch","Jhonny Rivera","Jhon Alex Castaño"],
-    e:["Cumbre","SOMOSCABAL","Feria del Diseño"]
-  };
   var Dots = (function(){
     var hero = $("hero"), cv = $("dots"), ctx = cv.getContext("2d"), src = $("hero-src");
     var off = document.createElement("canvas"), octx = off.getContext("2d", {willReadFrequently:true});
@@ -1184,7 +1178,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
   function renderHero(){
     $("hero-title").innerHTML = logoHTML(mode, "big");
-    $("trust").innerHTML = TRUST[mode].map(function(n){ return "<span>" + esc(n) + "</span>"; }).join("");
     Dots.setSource(HERO_VID[mode]);
     Dots.redraw();
     setHeroBg();
