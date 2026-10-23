@@ -653,8 +653,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       "hero.txt":"Growth Hacking & Dirección Creativa para Sellos y Productoras",
       "hero.cta":"Pide tu diagnóstico gratis",
       "doors.s":"Tu proyecto o tu evento, con el mismo método.",
-      "dp.h":"Tu música, tu proyecto o tu sello", "dp.p":"Para que tu música llegue lejos y no dependa de nadie.",
-      "dv.h":"Tu concierto, festival o fiesta", "dv.p":"Para llenar el lugar y que nadie lo olvide.",
+      "dp.h":"Artistas y Sellos", "dp.p":"Para que tu música llegue lejos y no dependa de nadie.",
+      "dv.h":"Producción de Eventos", "dv.p":"Para llenar el lugar y que nadie lo olvide.",
       "reel.s":"Toca cualquier video para verlo completo, con sonido.",
       "fly.s":"Arrastra la esfera. Toca una pieza para abrirla.",
       "v1.h":"Ves todo lo que hacemos.",
@@ -810,7 +810,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       if (mode === "n"){
         var b = k === "p" ? "e" : "c";
         body.innerHTML = logoHTML(b) +
-          '<p>' + esc(b === "e" ? "Growth Hacking y Branding para Startups y Marcas." : "Growth Hacking & Dirección Creativa para Sellos y Productoras.") + '</p>';
+          '<p>' + esc(b === "e" ? "Growth Hacking y Branding para marcas y empresas B2B / B2C" : "Growth Hacking & Dirección Creativa para Sellos y Productoras.") + '</p>';
         go.innerHTML = 'Entrar <i>→</i>';
         d.classList.toggle("light", b === "e");
         d.setAttribute("aria-pressed", "false");
