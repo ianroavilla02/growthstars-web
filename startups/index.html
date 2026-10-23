@@ -166,7 +166,7 @@ body[data-mode="e"] .hero-text{max-width:58ch}
 
 /* ── Marquesina ───────────────────────── */
 .marquee{overflow:hidden;border-top:1px solid var(--line);padding-block:8px;white-space:nowrap}
-.marquee-in{display:inline-flex;gap:14px;animation:corre 38s linear infinite;font-size:clamp(11px,1.26vw,17px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
+.marquee-in{display:inline-flex;gap:14px;animation:corre 110s linear infinite;font-size:clamp(11px,1.26vw,17px);font-weight:900;letter-spacing:-.03em;text-transform:uppercase}
 .marquee-in span{display:inline-flex;align-items:center;gap:14px}
 /* Diagnóstico en ventana emergente */
 .dxm{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:rgba(6,6,6,.7);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);opacity:0;transition:opacity .22s}
@@ -1205,7 +1205,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
     $("reel-title").innerHTML = '<span class="ast">*</span>' + (mode === "e" ? "Startups" : "Stars");
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
-    $("marquee").innerHTML = row + row;
+    var half = row + row + row + row;   /* cada mitad cubre más que una pantalla ancha: la cinta nunca deja huecos */
+    $("marquee").innerHTML = half + half;
     filter = "all"; step = 0;
     renderHero(); renderDoors(); renderReel(); renderSteps(); pretipo();
   }
