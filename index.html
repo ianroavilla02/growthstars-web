@@ -711,34 +711,20 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 
   /* ── Reel: l = frente (c = G*Stars, e = G*Startups) · v = vertical (p = proyecto, v = evento) · ar = ancho/alto ── */
   var REEL = [
-    {s:"rasca-la-kalle", l:"c", v:"v", ti:"La Rasca Salinera", ty:"Promocional del evento", ar:16/9},
     {s:"cumbre", l:"e", v:"p", ti:"Cumbre", ty:"Promocional de marca", ar:16/9},
-    {s:"marlon-tentacion", l:"c", v:"p", ti:"Marlon · Tentación", ty:"Videoclip", ar:16/9},
     {s:"feria-experiencia", l:"e", v:"v", ti:"Feria del Diseño", ty:"La experiencia", ar:9/16},
     {s:"topboy-aftermovie", l:"c", v:"v", ti:"TOPBOY · Royal Center", ty:"Aftermovie del concierto", ar:1.25},
     {s:"somoscabal", l:"e", v:"p", ti:"SOMOSCABAL", ty:"Película de marca", ar:16/9},
-    {s:"rasca-teaser", l:"c", v:"v", ti:"La Rasca Salinera", ty:"Teaser", ar:9/16},
     {s:"feria-agradecimiento", l:"e", v:"v", ti:"Feria del Diseño", ty:"Agradecimiento", ar:9/16},
     {s:"marlon-bts", l:"c", v:"p", ti:"Marlon · Tentación", ty:"Detrás de cámaras", ar:16/9},
     {s:"feria-feed", l:"e", v:"v", ti:"Feria del Diseño", ty:"Contenido para redes", ar:9/16},
-    {s:"rasca-jhonny", l:"c", v:"v", ti:"Jhonny Rivera", ty:"Presentación de artista", ar:9/16},
     {s:"kei-linch", l:"c", v:"p", ti:"Kei Linch", ty:"En vivo", ar:1.25},
     {s:"andresz-royal", l:"c", v:"v", ti:"Andrés SZ · Royal Center", ty:"Concierto", ar:1.25},
-    {s:"lyrics-02", l:"c", v:"p", ti:"Lyric video", ty:"Videoclip con letra", ar:9/16},
     {s:"tellez", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
     {s:"artista-al-publico", l:"c", v:"v", ti:"Cuando un artista se tira al público", ty:"Royal Center", ar:1.25},
-    {s:"reels-artistas-1", l:"c", v:"p", ti:"Reel de artista", ty:"Contenido para redes", ar:9/16},
-    {s:"jot4r", l:"c", v:"p", ti:"JOT4 R", ty:"En vivo", ar:1.25},
-    {s:"lyrics-13", l:"c", v:"p", ti:"Lyric video", ty:"Videoclip con letra", ar:9/16},
-    {s:"reels-artistas-2", l:"c", v:"p", ti:"Reel de artista", ty:"Contenido para redes", ar:9/16},
-    {s:"marlon-bts-2", l:"c", v:"p", ti:"Marlon · Tentación", ty:"En el set", ar:16/9},
-    {s:"reels-artistas-3", l:"c", v:"p", ti:"Reel de artista", ty:"Contenido para redes", ar:9/16},
-    {s:"lyrics-11", l:"c", v:"p", ti:"Lyric video", ty:"Videoclip con letra", ar:9/16},
-    {s:"reels-artistas-4", l:"c", v:"p", ti:"Reel de artista", ty:"Contenido para redes", ar:9/16},
-    {s:"rasca-jhon-alex", l:"c", v:"v", ti:"Jhon Alex Castaño", ty:"Presentación de artista", ar:9/16}
   ];
   /* Video de cada puerta, por frente */
-  var DOORVID = {n:{p:"cumbre", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"marlon-tentacion", v:"rasca-la-kalle"}};
+  var DOORVID = {n:{p:"cumbre", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"kei-linch", v:"topboy-aftermovie"}};
   /* Logos reales sin sombra; ar = ancho/alto del PNG recortado */
   var LOGOS = {n:{f:"growth", ar:5.9867}, e:{f:"growth-startups", ar:8.7857}, c:{f:"growth-stars", ar:8.9474}};
 
