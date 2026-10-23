@@ -713,13 +713,13 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   var REEL = [
     {s:"cumbre", l:"e", v:"p", ti:"Cumbre", ty:"Promocional de marca", ar:16/9},
     {s:"feria-experiencia", l:"e", v:"v", ti:"Feria del Diseño", ty:"La experiencia", ar:9/16},
-    {s:"topboy-aftermovie", l:"c", v:"v", ti:"TOPBOY · Royal Center", ty:"Aftermovie del concierto", ar:1.25},
+    {s:"topboy-aftermovie", pv:"topboy-aftermovie-portada", l:"c", v:"v", ti:"TOPBOY · Royal Center", ty:"Aftermovie del concierto", ar:1.25},
     {s:"somoscabal", l:"e", v:"p", ti:"SOMOSCABAL", ty:"Película de marca", ar:16/9},
     {s:"feria-agradecimiento", l:"e", v:"v", ti:"Feria del Diseño", ty:"Agradecimiento", ar:9/16},
     {s:"feria-feed", l:"e", v:"v", ti:"Feria del Diseño", ty:"Contenido para redes", ar:9/16},
-    {s:"kei-linch", l:"c", v:"p", ti:"Kei Linch", ty:"En vivo", ar:1.25},
-    {s:"andresz-royal", l:"c", v:"v", ti:"Andrés SZ · Royal Center", ty:"Concierto", ar:1.25},
-    {s:"tellez", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
+    {s:"kei-linch", pv:"kei-linch-portada", l:"c", v:"p", ti:"Kei Linch", ty:"En vivo", ar:1.25},
+    {s:"andresz-royal", pv:"andresz-royal-portada", l:"c", v:"v", ti:"Andrés SZ · Royal Center", ty:"Concierto", ar:1.25},
+    {s:"tellez", pv:"tellez-portada", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
   ];
   /* Video de cada puerta, por frente */
   var DOORVID = {n:{p:"cumbre", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"kei-linch", v:"topboy-aftermovie"}};
@@ -756,9 +756,10 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     var list = visibleReel();
     $("strip").innerHTML = list.map(function(r, i){
       var tag = mode === "n" ? (r.l === "c" ? "Stars" : "Startups") : (r.v === "p" ? "Proyecto" : "Evento");
-      return '<button type="button" class="clip" data-i="' + i + '" style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
-        '<img src="' + M + 'reel/' + r.s + '.jpg" alt="" loading="lazy">' +
-        '<video muted loop playsinline preload="none" data-src="' + M + 'reel/' + r.s + '.mp4"></video>' +
+      var pv = r.pv || r.s;   /* la tarjeta muestra la portada si existe; el visor abre el video completo */
+      return '<button type="button" class="clip" data-i="' + i + '"' + (r.pv ? ' data-pv="1"' : '') + ' style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
+        '<img src="' + M + 'reel/' + pv + '.jpg" alt="" loading="lazy">' +
+        '<video muted loop playsinline preload="none" data-src="' + M + 'reel/' + pv + '.mp4"></video>' +
         '<span class="clip-line">' + esc(tag) + '</span>' +
         '<span class="clip-play" aria-hidden="true"></span>' +
         '<span class="clip-cap"><b>' + esc(r.ti) + '</b><span>' + esc(r.ty) + '</span></span>' +
@@ -766,12 +767,19 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     }).join("");
     ["all","p","v"].forEach(function(f){ $("f-" + f).setAttribute("aria-pressed", String(filter === f)); });
     $("strip").scrollLeft = 0;
+    /* Las portadas corren solas mientras la tarjeta está a la vista */
+    if (pvObs) pvObs.disconnect();
+    if ("IntersectionObserver" in window){
+      pvObs = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) playIn(e.target); else pauseIn(e.target); }); }, {threshold:.25});
+      document.querySelectorAll('.clip[data-pv="1"]').forEach(function(c){ pvObs.observe(c); });
+    }
   }
+  var pvObs = null;
   var strip = $("strip");
   strip.addEventListener("pointerover", function(ev){ var c = ev.target.closest(".clip"); if (c && ev.pointerType === "mouse") playIn(c); });
-  strip.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.contains(ev.relatedTarget)) pauseIn(c); });
+  strip.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.dataset.pv && !c.contains(ev.relatedTarget)) pauseIn(c); });
   strip.addEventListener("focusin", function(ev){ var c = ev.target.closest(".clip"); if (c) playIn(c); });
-  strip.addEventListener("focusout", function(ev){ var c = ev.target.closest(".clip"); if (c) pauseIn(c); });
+  strip.addEventListener("focusout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.dataset.pv) pauseIn(c); });
   var sd = null, moved = false;
   strip.addEventListener("pointerdown", function(ev){ if (ev.pointerType !== "mouse") return; sd = {x:ev.clientX, l:strip.scrollLeft}; moved = false; });
   addEventListener("pointermove", function(ev){ if (!sd) return; var dx = ev.clientX - sd.x; if (Math.abs(dx) > 6){ moved = true; strip.classList.add("drag"); } if (moved) strip.scrollLeft = sd.l - dx; });
@@ -1067,7 +1075,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
 
   /* ── Portada: matriz de puntos en vivo sobre un video propio (el efecto de la referencia) ── */
-  var HERO_VID = {n:"hero/hero-stars-m", c:"reel/topboy-aftermovie", e:"reel/cumbre"};   /* GROWTH* = el video de datos · G*Stars = el concierto */
+  var HERO_VID = {n:"hero/hero-stars-m", c:"hero/hero-growthstars-m", e:"reel/cumbre"};   /* GROWTH* = el video de datos · G*Stars = HERO PAGE - GROWTHSTARS */
   var Dots = (function(){
     var hero = $("hero"), cv = $("dots"), ctx = cv.getContext("2d"), src = $("hero-src");
     var off = document.createElement("canvas"), octx = off.getContext("2d", {willReadFrequently:true});
