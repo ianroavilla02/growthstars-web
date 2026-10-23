@@ -118,7 +118,7 @@ body[data-mode="n"] .hero-title{--lw:574px}
 /* En los frentes no hay botón: el diagnóstico vive solo en GROWTH*. El texto va resaltado en verde, línea por línea */
 body[data-mode="e"] .hero-ctas,body[data-mode="c"] .hero-ctas{display:none}
 body[data-mode="e"] .hero-text{max-width:58ch}
-body:not([data-mode="n"]) .hero-text span{background:var(--acc);color:var(--on-acc);padding:.06em .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone;text-shadow:none;line-height:1.7}
+.hero-text span{background:var(--acc);color:var(--on-acc);padding:.06em .18em;box-decoration-break:clone;-webkit-box-decoration-break:clone;text-shadow:none;line-height:1.7}
 .pill{position:relative;display:inline-flex;align-items:center;gap:8px;border:0;border-radius:999px;padding:13px 22px;font-size:15px;font-weight:800;text-decoration:none;cursor:pointer;background:var(--fg);color:var(--bg);transition:transform .25s var(--ease)}
 .pill:hover{transform:translateY(-2px)}
 .pill::after{content:"";position:absolute;left:10%;right:10%;bottom:-9px;height:16px;border-radius:50%;background:var(--acc);filter:blur(12px);opacity:.75;z-index:-1;animation:glow 3.6s ease-in-out infinite alternate}
@@ -724,7 +724,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     {s:"tellez", pv:"tellez-portada", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
   ];
   /* Video de cada puerta, por frente */
-  var DOORVID = {n:{p:"cumbre", v:"topboy-aftermovie"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"kei-linch", v:"topboy-aftermovie"}};
+  var DOORVID = {n:{p:"cumbre", v:"hero/hero-growthstars"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"kei-linch", v:"topboy-aftermovie"}};
   /* Logos reales sin sombra; ar = ancho/alto del PNG recortado */
   var LOGOS = {n:{f:"growth", ar:5.9867}, e:{f:"growth-startups", ar:8.7857}, c:{f:"growth-stars", ar:8.9474}};
 
@@ -816,10 +816,11 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         d.classList.remove("light");
         d.setAttribute("aria-pressed", String(vert === k && filter === k));
       }
-      if (v.dataset.src !== M + "reel/" + s + ".mp4"){
+      var ruta = s.indexOf("/") > -1 ? s : "reel/" + s;   /* "hero/x" usa la carpeta de portadas */
+      if (v.dataset.src !== M + ruta + ".mp4"){
         v.pause(); v.removeAttribute("src"); v.load();
-        v.dataset.src = M + "reel/" + s + ".mp4";
-        v.poster = M + "reel/" + s + ".jpg";
+        v.dataset.src = M + ruta + ".mp4";
+        v.poster = M + ruta + ".jpg";
       }
     });
   }
