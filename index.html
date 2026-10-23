@@ -333,6 +333,10 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .cursor{position:fixed;left:0;top:0;z-index:70;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;background:var(--acc);color:#0A0A0A;display:grid;place-items:center;font-size:12px;font-weight:900;letter-spacing:.14em;pointer-events:none;transform:translate3d(var(--cx,-200px),var(--cy,-200px),0) scale(var(--cs,0));transition:transform .18s var(--ease)}
 .cut{position:fixed;inset:0;z-index:100;background:#0A0A0A;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .18s}
 .cut.on{opacity:1}
+/* Pantalla intermedia: el logo real del frente al que se entra, al mismo tamaño que en su portada */
+.cut{--fg:#F4F4F2}
+.cut.light{background:#F4F4F2;--fg:#0A0A0A}
+.cut strong{line-height:0;display:block}
 .cut strong{font-size:clamp(40px,8vw,96px);font-weight:900;letter-spacing:-.05em;color:#F4F4F2;text-transform:uppercase}
 .cut .star{color:#B7FF06;background:none;font-size:.56em;vertical-align:.55em}
 
@@ -1218,7 +1222,9 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       if (scrollTo) scrollTo.scrollIntoView({behavior:"auto", block:"start"});
     };
     if (!animate || reduce){ apply(); return; }
-    $("cut-t").innerHTML = starify(NAMES[m]);
+    $("cut-t").innerHTML = logoHTML(m, "big");
+    $("cut-t").style.setProperty("--lw", m === "n" ? "574px" : "756px");
+    $("cut").classList.toggle("light", m === "e");
     $("cut").classList.add("on");
     setTimeout(apply, 240);
     setTimeout(function(){ $("cut").classList.remove("on"); }, 720);
