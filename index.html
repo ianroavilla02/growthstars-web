@@ -182,7 +182,7 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 
 /* ── Reel ─────────────────────────────── */
 .reel-head{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
-/* Título del reel con la forma del logo: PROYECTOS en negra, *Frente en liviana */
+/* Título del reel: *Frente en liviana */
 #reel{padding-block:clamp(28px,4vw,56px)}
 #reel .strip-wrap{margin-top:20px}
 .reel-title{font-size:clamp(28px,3.4vw,46px);font-weight:300;letter-spacing:-.03em;line-height:1}
@@ -810,7 +810,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         d.classList.toggle("light", b === "e");
         d.setAttribute("aria-pressed", "false");
       } else {
-        body.innerHTML = '<div class="tag">' + (k === "p" ? "Proyectos" : "Eventos") + '</div><h3>' + esc(t(k === "p" ? "dp.h" : "dv.h")) + '</h3><p>' + esc(t(k === "p" ? "dp.p" : "dv.p")) + '</p>';
+        body.innerHTML = '<h3>' + esc(t(k === "p" ? "dp.h" : "dv.h")) + '</h3><p>' + esc(t(k === "p" ? "dp.p" : "dv.p")) + '</p>';
         go.innerHTML = (k === "p" ? "Ver proyectos" : "Ver eventos") + ' <i>→</i>';
         d.classList.remove("light");
         d.setAttribute("aria-pressed", String(vert === k && filter === k));
