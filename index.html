@@ -764,7 +764,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       var tag = mode === "n" ? (r.l === "c" ? "Stars" : "Startups") : (r.v === "p" ? "Proyecto" : "Evento");
       var pv = r.pv || r.s;   /* la tarjeta muestra la portada si existe; el visor abre el video completo */
       return '<button type="button" class="clip" data-i="' + i + '"' + (r.pv ? ' data-pv="1"' : '') + ' style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
-        '<img src="' + M + 'reel/' + pv + '.jpg" alt="" loading="lazy">' +
+        '<img src="' + M + 'reel/' + pv + '.webp" alt="" loading="lazy">' +
         '<video muted loop playsinline preload="none" data-src="' + M + 'reel/' + pv + '.mp4"></video>' +
         '<span class="clip-line">' + esc(tag) + '</span>' +
         '<span class="clip-play" aria-hidden="true"></span>' +
@@ -774,17 +774,33 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     $("strip").scrollLeft = 0;
     /* Las portadas corren solas mientras la tarjeta está a la vista */
     if (pvObs) pvObs.disconnect();
+    pvVis = []; pvOn = null;
     if ("IntersectionObserver" in window){
-      pvObs = new IntersectionObserver(function(es){ es.forEach(function(e){ if (e.isIntersecting) playIn(e.target); else pauseIn(e.target); }); }, {threshold:.25});
+      pvObs = new IntersectionObserver(function(es){
+        es.forEach(function(e){
+          var i = pvVis.indexOf(e.target);
+          if (e.isIntersecting){ if (i < 0) pvVis.push(e.target); }
+          else { if (i > -1) pvVis.splice(i, 1); pauseIn(e.target); }
+        });
+        pickPv();
+      }, {threshold:.25});
       document.querySelectorAll('.clip[data-pv="1"]').forEach(function(c){ pvObs.observe(c); });
     }
   }
-  var pvObs = null;
+  var pvObs = null, pvVis = [], pvOn = null, pvT = 0;
+  /* Una sola portada corre a la vez: la más cercana al centro de la pantalla */
+  function pickPv(){
+    var cx = innerWidth / 2, best = null, bd = 1e9;
+    pvVis.forEach(function(c){ var r = c.getBoundingClientRect(), d = Math.abs(r.left + r.width / 2 - cx); if (d < bd){ bd = d; best = c; } });
+    if (pvOn && pvOn !== best) pauseIn(pvOn);
+    pvOn = best; if (best) playIn(best);
+  }
   var strip = $("strip");
   strip.addEventListener("pointerover", function(ev){ var c = ev.target.closest(".clip"); if (c && ev.pointerType === "mouse") playIn(c); });
-  strip.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.dataset.pv && !c.contains(ev.relatedTarget)) pauseIn(c); });
+  strip.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && c !== pvOn && !c.contains(ev.relatedTarget)) pauseIn(c); });
+  strip.addEventListener("scroll", function(){ clearTimeout(pvT); pvT = setTimeout(pickPv, 120); }, {passive:true});
   strip.addEventListener("focusin", function(ev){ var c = ev.target.closest(".clip"); if (c) playIn(c); });
-  strip.addEventListener("focusout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.dataset.pv) pauseIn(c); });
+  strip.addEventListener("focusout", function(ev){ var c = ev.target.closest(".clip"); if (c && c !== pvOn) pauseIn(c); });
   var sd = null, moved = false;
   strip.addEventListener("pointerdown", function(ev){ if (ev.pointerType !== "mouse") return; sd = {x:ev.clientX, l:strip.scrollLeft}; moved = false; });
   addEventListener("pointermove", function(ev){ if (!sd) return; var dx = ev.clientX - sd.x; if (Math.abs(dx) > 6){ moved = true; strip.classList.add("drag"); } if (moved) strip.scrollLeft = sd.l - dx; });
@@ -792,7 +808,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   strip.addEventListener("click", function(ev){
     var c = ev.target.closest(".clip"); if (!c) return;
     if (moved){ moved = false; return; }
-    var list = visibleReel().map(function(r){ return {t:"vid", src:M + "reel/" + r.s + ".mp4", poster:M + "reel/" + r.s + ".jpg", ar:r.ar, ti:r.ti, ty:r.ty}; });
+    var list = visibleReel().map(function(r){ return {t:"vid", src:M + "reel/" + r.s + ".mp4", poster:M + "reel/" + r.s + ".webp", ar:r.ar, ti:r.ti, ty:r.ty}; });
     openVisor(list, +c.dataset.i, c, false);
   });
   $("s-prev").addEventListener("click", function(){ strip.scrollBy({left:-strip.clientWidth * .7, behavior: reduce ? "auto" : "smooth"}); });
@@ -824,7 +840,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       if (v.dataset.src !== M + ruta + ".mp4"){
         v.pause(); v.removeAttribute("src"); v.load();
         v.dataset.src = M + ruta + ".mp4";
-        v.poster = M + ruta + ".jpg";
+        v.poster = M + ruta + ".webp";
       }
     });
   }
@@ -1081,16 +1097,17 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   }
 
   /* ── Portada: matriz de puntos en vivo sobre un video propio (el efecto de la referencia) ── */
-  var HERO_VID = {n:"hero/hero-stars-m", c:"hero/hero-growthstars-m", e:"reel/cumbre"};   /* GROWTH* = el video de datos · G*Stars = HERO PAGE - GROWTHSTARS */
+  var HERO_VID = {n:"hero/dots-growth", c:"hero/dots-stars", e:"hero/dots-startups"};   /* videos mini de 480 px: la matriz los lee a ~240x135 puntos, se ve igual */   /* GROWTH* = el video de datos · G*Stars = HERO PAGE - GROWTHSTARS */
   var Dots = (function(){
     var hero = $("hero"), cv = $("dots"), ctx = cv.getContext("2d"), src = $("hero-src");
     var off = document.createElement("canvas"), octx = off.getContext("2d", {willReadFrequently:true});
-    var W = 0, H = 0, dpr = 1, cell = 8, cols = 0, rows = 0, vis = true, raf = 0, last = 0, tainted = false, seeds = null, on = true;
+    var W = 0, H = 0, dpr = 1, cell = 8, cols = 0, rows = 0, vis = true, raf = 0, last = 0, tainted = false, seeds = null, on = true, frameMs = 33;
     function sm(a, b, v){ v = Math.min(1, Math.max(0, (v - a) / (b - a))); return v * v * (3 - 2 * v); }
     function size(){
       var r = hero.getBoundingClientRect();
       dpr = Math.min(2, window.devicePixelRatio || 1); W = r.width; H = r.height;
       cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+      frameMs = (W < 760 || matchMedia("(pointer: coarse)").matches) ? 41 : 33;   /* 24 cuadros por segundo en el celular */
       cell = W < 700 ? 6 : 8; cols = Math.max(1, Math.ceil(W / cell)); rows = Math.max(1, Math.ceil(H / cell));
       off.width = cols; off.height = rows;
       seeds = new Float32Array(cols * rows);
@@ -1144,11 +1161,13 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         ctx.fill();
       }
     }
-    function loop(t){ raf = 0; if (!vis || !on) return; if (t - last > 33){ last = t; draw(t); } raf = requestAnimationFrame(loop); }
+    function loop(t){ raf = 0; if (!vis || !on || document.hidden) return; if (t - last > frameMs){ last = t; draw(t); } raf = requestAnimationFrame(loop); }
     function play(){ if (reduce || !on || !src.getAttribute("src")) return; var p = src.play(); if (p && p.catch) p.catch(function(){}); }
     function start(){ if (!raf && vis && !reduce) raf = requestAnimationFrame(loop); play(); }
     src.addEventListener("loadeddata", function(){ if (reduce){ try { src.currentTime = src.duration * .3; } catch(e){} } draw(performance.now()); });
     src.addEventListener("seeked", function(){ if (reduce) draw(0); });
+    /* Con la pestaña oculta nadie la ve: se pausa y no gasta batería */
+    document.addEventListener("visibilitychange", function(){ if (document.hidden) src.pause(); else start(); });
     if ("ResizeObserver" in window) new ResizeObserver(function(){ size(); draw(performance.now()); }).observe(hero);
     else addEventListener("resize", function(){ size(); draw(performance.now()); });
     if ("IntersectionObserver" in window){
