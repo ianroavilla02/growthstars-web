@@ -414,12 +414,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   <section class="sec o-reel" id="reel" data-show="e c">
     <div class="wrap">
       <div class="reel-head">
-        <h2 class="reel-title" id="reel-title"><b>PROYECTOS</b><span class="ast">*</span>Stars</h2>
-        <div class="chips" role="group" aria-label="Filtrar videos">
-          <button type="button" class="chip" id="f-all" data-f="all" aria-pressed="true">Todo</button>
-          <button type="button" class="chip" id="f-p" data-f="p" aria-pressed="false">Proyectos</button>
-          <button type="button" class="chip" id="f-v" data-f="v" aria-pressed="false">Eventos</button>
-        </div>
+        <h2 class="reel-title" id="reel-title"><span class="ast">*</span>Stars</h2>
       </div>
     </div>
     <div class="strip-wrap">
@@ -630,7 +625,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     },
     e:{
       "hero.sub":"DATA & Algoritmos Predictivos",
-      "hero.txt":"Somos Creadores de Marca, Posicionamos tu empresa desde la Dirección Creativa hasta estrategias avanzadas de Growth Hacking, Algoritmos Predictivos y Venture Capital.",
+      "hero.txt":"Somos Creadores de Marca, Posicionamos su empresa desde la Dirección Creativa hasta estrategias avanzadas de Growth Hacking, Algoritmos Predictivos y alianzas como socios.",
       "hero.cta":"Pida su diagnóstico gratis",
       "doors.s":"Su proyecto o su evento, con el mismo método.",
       "dp.h":"Su empresa o su marca", "dp.p":"Para que se vea bien, venda más y sepa por qué.",
@@ -771,7 +766,6 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         '<span class="clip-cap"><b>' + esc(r.ti) + '</b><span>' + esc(r.ty) + '</span></span>' +
       '</button>';
     }).join("");
-    ["all","p","v"].forEach(function(f){ $("f-" + f).setAttribute("aria-pressed", String(filter === f)); });
     $("strip").scrollLeft = 0;
     /* Las portadas corren solas mientras la tarjeta está a la vista */
     if (pvObs) pvObs.disconnect();
@@ -835,7 +829,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     d.addEventListener("blur", function(){ pauseIn(d); });
     d.addEventListener("click", function(){
       if (mode === "n"){ setMode(d.dataset.vert === "p" ? "e" : "c", true, $("top")); return; }
-      vert = d.dataset.vert; filter = vert; step = 0;
+      vert = d.dataset.vert; filter = "all"; step = 0;   /* sin filtros visibles: la puerta elige los pasos, el reel muestra todo */
       renderDoors(); renderReel(); renderSteps();
       $("reel").scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"});
     });
@@ -1207,7 +1201,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     document.body.dataset.theme = mode === "e" ? "light" : "dark";
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (v != null) el.innerHTML = starify(v); });
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
-    $("reel-title").innerHTML = '<b>PROYECTOS</b><span class="ast">*</span>' + (mode === "e" ? "Startups" : "Stars");
+    $("reel-title").innerHTML = '<span class="ast">*</span>' + (mode === "e" ? "Startups" : "Stars");
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
     $("marquee").innerHTML = row + row;
     filter = "all"; step = 0;
@@ -1234,8 +1228,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   var h = (location.hash || "").slice(1).toLowerCase() || (location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
   mode = /^(startups|empresa)/.test(h) ? "e" : /^(stars|cultura)/.test(h) ? "c" : "n";
   render();
-  if (/-eventos$/.test(h)){ vert = "v"; filter = "v"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
-  else if (/-proyectos$/.test(h)){ vert = "p"; filter = "p"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
+  if (/-eventos$/.test(h)){ vert = "v"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
+  else if (/-proyectos$/.test(h)){ vert = "p"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
 })();
 </script>
 
