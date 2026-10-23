@@ -184,7 +184,8 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .reel-head{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
 /* Título del reel: *Frente en liviana */
 #reel{padding-block:clamp(28px,4vw,56px)}
-#reel .strip-wrap{margin-top:20px}
+#reel > .wrap{display:none}   /* sin título: los videos van directo */
+#reel .strip-wrap{margin-top:0}
 .reel-title{font-size:clamp(28px,3.4vw,46px);font-weight:300;letter-spacing:-.03em;line-height:1}
 .reel-title b{font-weight:900;letter-spacing:-.04em}
 .reel-title .ast{margin:0 .02em}
