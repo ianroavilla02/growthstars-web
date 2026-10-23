@@ -177,7 +177,13 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 @keyframes corre{to{transform:translateX(-50%)}}
 
 /* ── Reel ─────────────────────────────── */
-.reel-head{display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap}
+.reel-head{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+/* Título del reel con la forma del logo: PROYECTOS en negra, *Frente en liviana */
+#reel{padding-block:clamp(28px,4vw,56px)}
+#reel .strip-wrap{margin-top:20px}
+.reel-title{font-size:clamp(28px,3.4vw,46px);font-weight:300;letter-spacing:-.03em;line-height:1}
+.reel-title b{font-weight:900;letter-spacing:-.04em}
+.reel-title .ast{margin:0 .02em}
 .chips{display:flex;gap:8px;flex-wrap:wrap}
 .chip{border:0;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:700;cursor:pointer;background:none;box-shadow:inset 0 0 0 1px var(--line);color:var(--mute);transition:all .25s}
 .chip:hover{color:var(--fg);box-shadow:inset 0 0 0 1px var(--fg)}
@@ -404,11 +410,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   <section class="sec o-reel" id="reel" data-show="e c">
     <div class="wrap">
       <div class="reel-head">
-        <div>
-          <span class="lbl">Lo que ya hicimos</span>
-          <h2 class="h2">Mejor verlo.</h2>
-          <p class="sub" data-t="reel.s">Toca cualquier video para verlo completo, con sonido.</p>
-        </div>
+        <h2 class="reel-title" id="reel-title"><b>PROYECTOS</b><span class="ast">*</span>Stars</h2>
         <div class="chips" role="group" aria-label="Filtrar videos">
           <button type="button" class="chip" id="f-all" data-f="all" aria-pressed="true">Todo</button>
           <button type="button" class="chip" id="f-p" data-f="p" aria-pressed="false">Proyectos</button>
@@ -1201,6 +1203,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     document.body.dataset.theme = mode === "e" ? "light" : "dark";
     document.querySelectorAll("[data-t]").forEach(function(el){ var v = t(el.getAttribute("data-t")); if (v != null) el.innerHTML = starify(v); });
     ["e","c"].forEach(function(m){ $("sw-" + m).setAttribute("aria-pressed", String(mode === m)); });
+    $("reel-title").innerHTML = '<b>PROYECTOS</b><span class="ast">*</span>' + (mode === "e" ? "Startups" : "Stars");
     var row = MARQ[mode].map(function(w){ return "<span>" + esc(w) + "</span>"; }).join("");
     $("marquee").innerHTML = row + row;
     filter = "all"; step = 0;
