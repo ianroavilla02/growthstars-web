@@ -329,6 +329,36 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .v-prev{left:max(16px,env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%)}
 .v-next{right:max(16px,env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%)}
 
+/* ── Ficha de proyecto ────────────────── */
+.pj{position:fixed;inset:0;z-index:85;background:var(--bg);overflow-y:auto;overscroll-behavior:contain;opacity:0;transition:opacity .3s var(--ease)}
+.pj[hidden]{display:none}
+.pj.on{opacity:1}
+.pj-hero{position:relative;isolation:isolate;overflow:hidden;margin:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));border-radius:24px;min-height:min(84vh,860px);display:flex;flex-direction:column;justify-content:space-between;color:#F4F4F2;--fg:#F4F4F2}
+.pj-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.pj-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.84),rgba(0,0,0,.12) 55%,rgba(0,0,0,.45))}
+.pj-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px}
+.pj-back{border:0;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;color:#F4F4F2;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(244,244,242,.18);transition:background .2s}
+.pj-back:hover{background:rgba(10,10,10,.72)}
+.pj-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:clamp(20px,3.5vw,44px)}
+.pj-title{font-size:clamp(44px,7vw,104px);font-weight:900;letter-spacing:-.05em;line-height:.92}
+.pj-title span{display:block;font-weight:300;letter-spacing:-.035em}
+.pj-lead{margin-top:16px;max-width:46ch;font-size:clamp(16px,1.4vw,19px);color:rgba(244,244,242,.82)}
+.pj-ctas{margin-top:22px}
+.pj-facts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end;max-width:540px}
+.pj-facts li{display:flex;flex-direction:column;gap:2px;border-radius:14px;padding:10px 14px;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(244,244,242,.14);font-size:14px;font-weight:700}
+.pj-facts li span{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(244,244,242,.6)}
+.pj-about{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.7fr);gap:clamp(24px,5vw,88px);padding-block:clamp(48px,7vw,104px)}
+.pj-dl{margin:18px 0 0;display:grid;gap:10px}
+.pj-dl div{display:flex;justify-content:space-between;gap:16px;border-top:1px solid var(--line);padding-top:10px;font-size:15px}
+.pj-dl dt{color:var(--mute)}
+.pj-dl dd{margin:0;font-weight:700;text-align:right}
+.pj-desc{font-size:clamp(22px,2.4vw,34px);font-weight:500;line-height:1.25;letter-spacing:-.02em;text-wrap:pretty}
+.pj-content{padding-bottom:clamp(48px,7vw,96px)}
+.pj-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:20px}
+.pj-head h3{font-size:clamp(24px,2.6vw,34px);font-weight:800;letter-spacing:-.03em;margin-top:8px}
+.pj-nav{display:flex;gap:8px}
+@media (max-width:900px){.pj-about{grid-template-columns:minmax(0,1fr)}.pj-facts{justify-content:flex-start}.pj-hero{min-height:76vh}}
+
 /* ── Cursor y corte ───────────────────── */
 .cursor{position:fixed;left:0;top:0;z-index:70;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;background:var(--acc);color:#0A0A0A;display:grid;place-items:center;font-size:12px;font-weight:900;letter-spacing:.14em;pointer-events:none;transform:translate3d(var(--cx,-200px),var(--cy,-200px),0) scale(var(--cs,0));transition:transform .18s var(--ease)}
 .cut{position:fixed;inset:0;z-index:100;background:#0A0A0A;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .18s}
@@ -591,6 +621,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 </main>
 
+<div class="pj" id="pj" role="dialog" aria-modal="true" aria-label="Proyecto" hidden></div>
 <div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Pieza" aria-hidden="true">
   <div class="v-card" id="v-card"><div id="v-stage"></div><div class="v-glow"></div></div>
   <div class="v-cap" id="v-cap"></div>
@@ -719,14 +750,26 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   var REEL = [
     {s:"cumbre", l:"e", v:"p", ti:"Cumbre", ty:"Promocional de marca", ar:16/9},
     {s:"feria-experiencia", l:"e", v:"v", ti:"Feria del Diseño", ty:"La experiencia", ar:9/16},
-    {s:"topboy-aftermovie", pv:"topboy-aftermovie-portada", l:"c", v:"v", ti:"TOPBOY · Royal Center", ty:"Aftermovie del concierto", ar:1.25},
+    {s:"topboy-aftermovie", pv:"topboy-aftermovie-portada", pj:"topboy-royal-center", l:"c", v:"v", ti:"TOPBOY · Royal Center", ty:"Aftermovie del concierto", ar:1.25},
     {s:"somoscabal", l:"e", v:"p", ti:"SOMOSCABAL", ty:"Película de marca", ar:16/9},
     {s:"feria-agradecimiento", l:"e", v:"v", ti:"Feria del Diseño", ty:"Agradecimiento", ar:9/16},
     {s:"feria-feed", l:"e", v:"v", ti:"Feria del Diseño", ty:"Contenido para redes", ar:9/16},
-    {s:"kei-linch", pv:"kei-linch-portada", l:"c", v:"p", ti:"Kei Linch", ty:"En vivo", ar:1.25},
-    {s:"andresz-royal", pv:"andresz-royal-portada", l:"c", v:"v", ti:"Andrés SZ · Royal Center", ty:"Concierto", ar:1.25},
-    {s:"tellez", pv:"tellez-portada", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
+    {s:"kei-linch", pv:"kei-linch-portada", pj:"topboy-royal-center", l:"c", v:"v", ti:"Kei Linch", ty:"En vivo", ar:1.25},
+    {s:"andresz-royal", pv:"andresz-royal-portada", pj:"topboy-royal-center", l:"c", v:"v", ti:"Andrés SZ · Royal Center", ty:"Concierto", ar:1.25},
+    {s:"tellez", pv:"tellez-portada", pj:"topboy-royal-center", l:"c", v:"v", ti:"Tellez", ty:"En vivo", ar:1.25},
   ];
+  /* ── Proyectos: ficha de cada uno. Campo vacío = no se muestra (el aforo espera cifra registrada, contrato #5) ── */
+  var PROJECTS = {
+    "topboy-royal-center": {
+      l:"c", ti:"TOPBOY", sub:"en el Royal Center",
+      lugar:"Teatro Royal Center", ciudad:"Bogotá", pais:"Colombia", aforo:"", fecha:"19 de septiembre de 2026",
+      hero:"reel/topboy-aftermovie-portada",
+      lead:"La noche de TOPBOY en el Teatro Royal Center de Bogotá, coproducida con Rimas y registrada por nuestra crew.",
+      desc:"Coproducimos con Rimas el concierto de TOPBOY en el Teatro Royal Center. La crew de GROWTH*Stars cubrió la noche completa: el aftermovie del concierto y piezas en vivo de los artistas que pasaron por la tarima, Kei Linch, Andrés SZ y Tellez, listas para redes.",
+      piezas:["topboy-aftermovie","kei-linch","andresz-royal","tellez"]
+    }
+  };
+
   /* Video de cada puerta, por frente */
   var DOORVID = {n:{p:"cumbre", v:"hero/hero-growthstars"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"hero/banner-artistas", v:"hero/banner-eventos"}};
   var DOORLIVE = {c:true};   /* frentes con banner: el video de la puerta corre siempre que está en pantalla */
@@ -809,6 +852,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   strip.addEventListener("click", function(ev){
     var c = ev.target.closest(".clip"); if (!c) return;
     if (moved){ moved = false; return; }
+    var rr = visibleReel()[+c.dataset.i];
+    if (rr && rr.pj && PROJECTS[rr.pj]){ openProject(rr.pj, c); return; }   /* las piezas de un proyecto abren su ficha */
     var list = visibleReel().map(function(r){ return {t:"vid", src:M + "reel/" + r.s + ".mp4", poster:M + "reel/" + r.s + ".webp", ar:r.ar, ti:r.ti, ty:r.ty}; });
     openVisor(list, +c.dataset.i, c, false);
   });
@@ -970,7 +1015,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   function closeVisor(){
     clearTimeout(V.timer);
     visor.classList.remove("on"); visor.setAttribute("aria-hidden", "true");
-    document.documentElement.classList.remove("lock");
+    if (pj.hidden) document.documentElement.classList.remove("lock");   /* si la ficha sigue abierta, la página sigue bloqueada */
     setTimeout(function(){ vstage.innerHTML = ""; }, 220);
     if (V.opener) V.opener.focus({preventScroll:true});
   }
@@ -992,6 +1037,64 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     });
     vcard.addEventListener("pointerleave", function(){ vcard.style.setProperty("--rx", "0deg"); vcard.style.setProperty("--ry", "0deg"); vcard.style.setProperty("--go", "0"); });
   }
+
+  /* ── Ficha de proyecto: portada con datos, descripción y contenido del evento ── */
+  var pj = $("pj"), pjOpener = null;
+  function pieza(s){ for (var i = 0; i < REEL.length; i++) if (REEL[i].s === s) return REEL[i]; return null; }
+  function openProject(id, opener){
+    var P = PROJECTS[id]; if (!P) return;
+    pjOpener = opener || null;
+    var piezas = P.piezas.map(pieza).filter(Boolean);
+    var facts = [["Lugar", P.lugar], ["Ciudad", P.ciudad], ["País", P.pais], ["Aforo", P.aforo], ["Fecha", P.fecha]].filter(function(f){ return f[1]; });
+    pj.innerHTML =
+      '<section class="pj-hero">' +
+        '<video muted loop playsinline autoplay preload="auto" src="' + M + P.hero + '.mp4" poster="' + M + P.hero + '.webp"></video>' +
+        '<div class="pj-top"><button type="button" class="pj-back" id="pj-close">← Volver</button>' + logoHTML(P.l, "small") + '</div>' +
+        '<div class="pj-bottom">' +
+          '<div><h2 class="pj-title">' + esc(P.ti) + '<span>' + esc(P.sub) + '</span></h2><p class="pj-lead">' + esc(P.lead) + '</p>' +
+          '<div class="pj-ctas"><button type="button" class="btn" id="pj-play">Ver aftermovie →</button></div></div>' +
+          '<ul class="pj-facts">' + facts.map(function(f){ return '<li><span>' + esc(f[0]) + '</span>' + esc(f[1]) + '</li>'; }).join("") + '</ul>' +
+        '</div>' +
+      '</section>' +
+      '<section class="wrap pj-about">' +
+        '<div><span class="lbl">01 · El proyecto</span><dl class="pj-dl">' + facts.map(function(f){ return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join("") + '</dl></div>' +
+        '<p class="pj-desc">' + starify(P.desc) + '</p>' +
+      '</section>' +
+      '<section class="pj-content">' +
+        '<div class="wrap pj-head"><div><span class="lbl">02 · Contenido del evento</span><h3>' + piezas.length + ' piezas</h3></div>' +
+        '<div class="pj-nav"><button type="button" class="round" id="pj-prev" aria-label="Anterior">←</button><button type="button" class="round" id="pj-next" aria-label="Siguiente">→</button></div></div>' +
+        '<div class="strip pj-strip" id="pj-strip">' + piezas.map(function(r, i){
+          var pv = r.pv || r.s;
+          return '<button type="button" class="clip" data-i="' + i + '" style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
+            '<img src="' + M + 'reel/' + pv + '.webp" alt="" loading="lazy">' +
+            '<video muted loop playsinline preload="none" data-src="' + M + 'reel/' + pv + '.mp4"></video>' +
+            '<span class="clip-play" aria-hidden="true"></span>' +
+            '<span class="clip-cap"><b>' + esc(r.ti) + '</b><span>' + esc(r.ty) + '</span></span></button>';
+        }).join("") + '</div>' +
+      '</section>';
+    var list = piezas.map(function(r){ return {t:"vid", src:M + "reel/" + r.s + ".mp4", poster:M + "reel/" + r.s + ".webp", ar:r.ar, ti:r.ti, ty:r.ty}; });
+    var ps = $("pj-strip");
+    ps.addEventListener("click", function(ev){ var c = ev.target.closest(".clip"); if (c) openVisor(list, +c.dataset.i, c, false); });
+    ps.addEventListener("pointerover", function(ev){ var c = ev.target.closest(".clip"); if (c && ev.pointerType === "mouse") playIn(c); });
+    ps.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.contains(ev.relatedTarget)) pauseIn(c); });
+    $("pj-prev").addEventListener("click", function(){ ps.scrollBy({left:-ps.clientWidth * .7, behavior: reduce ? "auto" : "smooth"}); });
+    $("pj-next").addEventListener("click", function(){ ps.scrollBy({left:ps.clientWidth * .7, behavior: reduce ? "auto" : "smooth"}); });
+    $("pj-play").addEventListener("click", function(){ openVisor(list, 0, $("pj-play"), false); });
+    $("pj-close").addEventListener("click", closeProject);
+    pj.hidden = false; pj.scrollTop = 0;
+    requestAnimationFrame(function(){ pj.classList.add("on"); });
+    document.documentElement.classList.add("lock");
+    try { history.replaceState(null, "", "#" + id); } catch(e){}
+    $("pj-close").focus({preventScroll:true});
+  }
+  function closeProject(){
+    pj.classList.remove("on"); document.documentElement.classList.remove("lock");
+    setTimeout(function(){ pj.hidden = true; pj.innerHTML = ""; }, 300);
+    try { history.replaceState(null, "", mode === "n" ? location.pathname : "#" + HASH[mode]); } catch(e){}
+    if (pjOpener) pjOpener.focus({preventScroll:true});
+  }
+  /* En captura: si el visor está abierto, Esc cierra solo el visor */
+  addEventListener("keydown", function(ev){ if (ev.key === "Escape" && !pj.hidden && !visor.classList.contains("on")) closeProject(); }, true);
 
   /* ── Cursor "VER" sobre videos y flyers ── */
   if (fine && !reduce){
@@ -1264,9 +1367,12 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 
 
   /* ── Arranque: #stars o #startups (o la ruta /stars, /startups) abren el frente; -eventos o -proyectos eligen la vertical ── */
-  var h = (location.hash || "").slice(1).toLowerCase() || (location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
-  mode = /^(startups|empresa)/.test(h) ? "e" : /^(stars|cultura)/.test(h) ? "c" : "n";
+  var hraw = (location.hash || "").slice(1).toLowerCase(), path0 = (location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
+  var pjId = PROJECTS[hraw] ? hraw : null;   /* #topboy-royal-center abre la ficha de ese proyecto */
+  var h = (/^(startups|empresa|stars|cultura)/.test(hraw) ? hraw : "") || path0;
+  mode = /^(startups|empresa)/.test(h) ? "e" : /^(stars|cultura)/.test(h) ? "c" : (pjId ? PROJECTS[pjId].l : "n");
   render();
+  if (pjId) openProject(pjId, null);
   if (/-eventos$/.test(h)){ vert = "v"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
   else if (/-proyectos$/.test(h)){ vert = "p"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
 })();
