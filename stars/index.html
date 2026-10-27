@@ -142,8 +142,8 @@ body[data-mode="e"] .hero-text{max-width:58ch}
 .door{position:relative;overflow:hidden;isolation:isolate;min-height:clamp(320px,42vw,520px);border:0;border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);padding:clamp(24px,3.4vw,44px);text-align:left;cursor:pointer;display:flex;flex-direction:column;justify-content:space-between;gap:28px;transition:box-shadow .3s}
 .door video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;opacity:0;transform:scale(1.06);transition:opacity .6s var(--ease),transform 1.2s var(--ease)}
 .door::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,var(--bg) 8%,var(--veil) 55%,transparent);opacity:0;transition:opacity .6s}
-.door:hover video,.door:focus-visible video{opacity:1;transform:none}
-.door:hover::after,.door:focus-visible::after{opacity:1}
+.door:hover video,.door:focus-visible video,.door.live video{opacity:1;transform:none}
+.door:hover::after,.door:focus-visible::after,.door.live::after{opacity:1}
 .door:hover{box-shadow:inset 0 0 0 1px var(--hi)}
 .door[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--hi)}
 .door .tag{display:inline-flex;align-items:center;gap:10px;font-size:13px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
@@ -728,7 +728,8 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     {s:"tellez", pv:"tellez-portada", l:"c", v:"p", ti:"Tellez", ty:"En vivo", ar:1.25},
   ];
   /* Video de cada puerta, por frente */
-  var DOORVID = {n:{p:"cumbre", v:"hero/hero-growthstars"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"kei-linch", v:"topboy-aftermovie"}};
+  var DOORVID = {n:{p:"cumbre", v:"hero/hero-growthstars"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"hero/banner-artistas", v:"hero/banner-eventos"}};
+  var DOORLIVE = {c:true};   /* frentes con banner: el video de la puerta corre siempre que está en pantalla */
   /* Logos reales sin sombra; ar = ancho/alto del PNG recortado */
   var LOGOS = {n:{f:"growth", ar:5.9867}, e:{f:"growth-startups", ar:8.7857}, c:{f:"growth-stars", ar:8.9474}};
 
@@ -842,13 +843,23 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
         v.dataset.src = M + ruta + ".mp4";
         v.poster = M + ruta + ".webp";
       }
+      var live = !!DOORLIVE[mode];
+      d.classList.toggle("live", live);
+      if (live && doorsVisible) playIn(d); else if (!live) pauseIn(d);
     });
+  }
+  var doorsVisible = false;
+  if ("IntersectionObserver" in window){
+    new IntersectionObserver(function(es){
+      doorsVisible = es[0].isIntersecting;
+      document.querySelectorAll(".door.live").forEach(function(d){ if (doorsVisible) playIn(d); else pauseIn(d); });
+    }, {threshold:.2}).observe($("camino"));
   }
   document.querySelectorAll(".door").forEach(function(d){
     d.addEventListener("pointerenter", function(){ playIn(d); });
-    d.addEventListener("pointerleave", function(){ pauseIn(d); });
+    d.addEventListener("pointerleave", function(){ if (!d.classList.contains("live")) pauseIn(d); });
     d.addEventListener("focus", function(){ playIn(d); });
-    d.addEventListener("blur", function(){ pauseIn(d); });
+    d.addEventListener("blur", function(){ if (!d.classList.contains("live")) pauseIn(d); });
     d.addEventListener("click", function(){
       if (mode === "n"){ setMode(d.dataset.vert === "p" ? "e" : "c", true, $("top")); return; }
       vert = d.dataset.vert; filter = "all"; step = 0;   /* sin filtros visibles: la puerta elige los pasos, el reel muestra todo */
