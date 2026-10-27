@@ -334,8 +334,12 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .pj[hidden]{display:none}
 .pj.on{opacity:1}
 .pj-hero{position:relative;isolation:isolate;overflow:hidden;margin:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));border-radius:24px;min-height:min(84vh,860px);display:flex;flex-direction:column;justify-content:space-between;color:#F4F4F2;--fg:#F4F4F2}
-.pj-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.pj-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.84),rgba(0,0,0,.12) 55%,rgba(0,0,0,.45))}
+/* El aftermovie se ve completo en su proporción original (1350x1080) y sus bordes se funden a negro: no se nota el corte */
+.pj-hero{background:#000}
+.pj-hero video{position:absolute;top:0;left:50%;transform:translateX(-50%);height:100%;width:auto;max-width:none;aspect-ratio:1350/1080;object-fit:cover;z-index:-2;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 22%,#000 78%,transparent 100%);mask-image:linear-gradient(to right,transparent 0,#000 22%,#000 78%,transparent 100%)}
+.pj-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.92),rgba(0,0,0,.25) 45%,rgba(0,0,0,0) 65%,rgba(0,0,0,.55)),linear-gradient(to right,rgba(0,0,0,.65),rgba(0,0,0,0) 55%)}
+@media (max-width:760px){.pj-hero video{width:100%;height:100%;left:0;transform:none;object-fit:cover;-webkit-mask-image:none;mask-image:none}}
 .pj-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:18px 22px}   /* logo al centro */
 .pj-top .pj-back:first-child{justify-self:start}
 .pj-sound{justify-self:end}
@@ -763,7 +767,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   /* ── Proyectos: ficha de cada uno. Campo vacío = no se muestra (el aforo espera cifra registrada, contrato #5) ── */
   var PROJECTS = {
     "topboy-royal-center": {
-      l:"c", ti:"TOPBOY", sub:"en el Royal Center",
+      l:"c", ti:"TOPBOY", sub:"en el Royal Center", card:"topboy-aftermovie",   /* card = la única pieza que aparece en el reel; las demás viven en la ficha */
       lugar:"Teatro Royal Center", ciudad:"Bogotá", pais:"Colombia", aforo:"", fecha:"19 de septiembre de 2026",
       hero:"reel/topboy-aftermovie-hq", heroM:"reel/topboy-aftermovie-hq-m",   /* aftermovie completo: 1350x1080 en escritorio, 1080 px en celular */
       lead:"La noche de TOPBOY en el Teatro Royal Center de Bogotá, coproducida con Rimas y registrada por nuestra crew.",
@@ -802,12 +806,15 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
 
   /* ── Reel ── */
   function visibleReel(){
-    return REEL.filter(function(r){ return (mode === "n" || r.l === mode) && (filter === "all" || r.v === filter); });
+    return REEL.filter(function(r){
+      if (r.pj && PROJECTS[r.pj] && PROJECTS[r.pj].card !== r.s) return false;   /* piezas de un proyecto: solo dentro de su ficha */
+      return (mode === "n" || r.l === mode) && (filter === "all" || r.v === filter);
+    });
   }
   function renderReel(){
     var list = visibleReel();
     $("strip").innerHTML = list.map(function(r, i){
-      var tag = mode === "n" ? (r.l === "c" ? "Stars" : "Startups") : (r.v === "p" ? "Proyecto" : "Evento");
+      var tag = mode === "n" ? (r.l === "c" ? "Stars" : "Startups") : (r.pj || r.v === "p" ? "Proyecto" : "Evento");
       var pv = r.pv || r.s;   /* la tarjeta muestra la portada si existe; el visor abre el video completo */
       return '<button type="button" class="clip" data-i="' + i + '"' + (r.pv ? ' data-pv="1"' : '') + ' style="--ar:' + r.ar.toFixed(4) + '" aria-label="' + esc(r.ti + " · " + r.ty) + '">' +
         '<img src="' + M + 'reel/' + pv + '.webp" alt="" loading="lazy">' +
