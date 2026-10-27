@@ -336,7 +336,9 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .pj-hero{position:relative;isolation:isolate;overflow:hidden;margin:max(12px,env(safe-area-inset-top,0px)) max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px));border-radius:24px;min-height:min(84vh,860px);display:flex;flex-direction:column;justify-content:space-between;color:#F4F4F2;--fg:#F4F4F2}
 .pj-hero video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
 .pj-hero::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(to top,rgba(0,0,0,.84),rgba(0,0,0,.12) 55%,rgba(0,0,0,.45))}
-.pj-top{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 22px}
+.pj-top{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:18px 22px}   /* logo al centro */
+.pj-top .pj-back:first-child{justify-self:start}
+.pj-sound{justify-self:end}
 .pj-back{border:0;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;cursor:pointer;color:#F4F4F2;background:rgba(10,10,10,.45);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(244,244,242,.18);transition:background .2s}
 .pj-back:hover{background:rgba(10,10,10,.72)}
 .pj-bottom{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;padding:clamp(20px,3.5vw,44px)}
@@ -763,10 +765,10 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     "topboy-royal-center": {
       l:"c", ti:"TOPBOY", sub:"en el Royal Center",
       lugar:"Teatro Royal Center", ciudad:"Bogotá", pais:"Colombia", aforo:"", fecha:"19 de septiembre de 2026",
-      hero:"reel/topboy-aftermovie-portada",
+      hero:"reel/topboy-aftermovie-hq", heroM:"reel/topboy-aftermovie-hq-m",   /* aftermovie completo: 1350x1080 en escritorio, 1080 px en celular */
       lead:"La noche de TOPBOY en el Teatro Royal Center de Bogotá, coproducida con Rimas y registrada por nuestra crew.",
       desc:"Coproducimos con Rimas el concierto de TOPBOY en el Teatro Royal Center. La crew de GROWTH*Stars cubrió la noche completa: el aftermovie del concierto y piezas en vivo de los artistas que pasaron por la tarima, Kei Linch, Andrés SZ y Tellez, listas para redes.",
-      piezas:["topboy-aftermovie","kei-linch","andresz-royal","tellez"]
+      piezas:["kei-linch","andresz-royal","tellez"]   /* el aftermovie ya va en la portada de la ficha */
     }
   };
 
@@ -1045,23 +1047,23 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     var P = PROJECTS[id]; if (!P) return;
     pjOpener = opener || null;
     var piezas = P.piezas.map(pieza).filter(Boolean);
-    var facts = [["Lugar", P.lugar], ["Ciudad", P.ciudad], ["País", P.pais], ["Aforo", P.aforo], ["Fecha", P.fecha]].filter(function(f){ return f[1]; });
+    var heroSrc = M + (innerWidth < 760 && P.heroM ? P.heroM : P.hero) + ".mp4";
     pj.innerHTML =
       '<section class="pj-hero">' +
-        '<video muted loop playsinline autoplay preload="auto" src="' + M + P.hero + '.mp4" poster="' + M + P.hero + '.webp"></video>' +
-        '<div class="pj-top"><button type="button" class="pj-back" id="pj-close">← Volver</button>' + logoHTML(P.l, "small") + '</div>' +
+        '<video id="pj-video" muted loop playsinline autoplay preload="metadata" src="' + heroSrc + '" poster="' + M + P.hero + '.webp"></video>' +
+        '<div class="pj-top"><button type="button" class="pj-back" id="pj-close">← Volver</button>' + logoHTML(P.l, "small") +
+          '<button type="button" class="pj-back pj-sound" id="pj-sound" aria-pressed="false">Activar sonido</button></div>' +
         '<div class="pj-bottom">' +
           '<div><h2 class="pj-title">' + esc(P.ti) + '<span>' + esc(P.sub) + '</span></h2><p class="pj-lead">' + esc(P.lead) + '</p>' +
           '<div class="pj-ctas"><button type="button" class="btn" id="pj-play">Ver aftermovie →</button></div></div>' +
-          '<ul class="pj-facts">' + facts.map(function(f){ return '<li><span>' + esc(f[0]) + '</span>' + esc(f[1]) + '</li>'; }).join("") + '</ul>' +
         '</div>' +
       '</section>' +
       '<section class="wrap pj-about">' +
-        '<div><span class="lbl">01 · El proyecto</span><dl class="pj-dl">' + facts.map(function(f){ return '<div><dt>' + esc(f[0]) + '</dt><dd>' + esc(f[1]) + '</dd></div>'; }).join("") + '</dl></div>' +
+        '<div><span class="lbl">01 · El proyecto</span></div>' +
         '<p class="pj-desc">' + starify(P.desc) + '</p>' +
       '</section>' +
       '<section class="pj-content">' +
-        '<div class="wrap pj-head"><div><span class="lbl">02 · Contenido del evento</span><h3>' + piezas.length + ' piezas</h3></div>' +
+        '<div class="wrap pj-head"><div></div>' +
         '<div class="pj-nav"><button type="button" class="round" id="pj-prev" aria-label="Anterior">←</button><button type="button" class="round" id="pj-next" aria-label="Siguiente">→</button></div></div>' +
         '<div class="strip pj-strip" id="pj-strip">' + piezas.map(function(r, i){
           var pv = r.pv || r.s;
@@ -1079,7 +1081,14 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     ps.addEventListener("pointerout", function(ev){ var c = ev.target.closest(".clip"); if (c && !c.contains(ev.relatedTarget)) pauseIn(c); });
     $("pj-prev").addEventListener("click", function(){ ps.scrollBy({left:-ps.clientWidth * .7, behavior: reduce ? "auto" : "smooth"}); });
     $("pj-next").addEventListener("click", function(){ ps.scrollBy({left:ps.clientWidth * .7, behavior: reduce ? "auto" : "smooth"}); });
-    $("pj-play").addEventListener("click", function(){ openVisor(list, 0, $("pj-play"), false); });
+    /* "Ver aftermovie" abre el completo con sonido en el visor; el de la portada corre en silencio */
+    var full = [{t:"vid", src:heroSrc, poster:M + P.hero + ".webp", ar:1.25, ti:P.ti + " · " + P.sub, ty:"Aftermovie"}];
+    $("pj-play").addEventListener("click", function(){ $("pj-video").pause(); openVisor(full, 0, $("pj-play"), false); });
+    $("pj-sound").addEventListener("click", function(){
+      var v = $("pj-video"), b = $("pj-sound"); v.muted = !v.muted;
+      if (!v.muted){ v.currentTime = 0; v.play().catch(function(){}); }
+      b.setAttribute("aria-pressed", String(!v.muted)); b.textContent = v.muted ? "Activar sonido" : "Silenciar";
+    });
     $("pj-close").addEventListener("click", closeProject);
     pj.hidden = false; pj.scrollTop = 0;
     requestAnimationFrame(function(){ pj.classList.add("on"); });
