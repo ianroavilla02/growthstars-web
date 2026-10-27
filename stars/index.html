@@ -365,6 +365,51 @@ body[data-theme="light"] .marquee-in span::after{color:var(--fg)}
 .pj-nav{display:flex;gap:8px}
 @media (max-width:900px){.pj-about{grid-template-columns:minmax(0,1fr)}.pj-facts{justify-content:flex-start}.pj-hero{min-height:76vh}}
 
+/* ── Vistas internas (Artistas y Sellos · Producción de Eventos) ── */
+.vx{z-index:84}
+.vx-bar{position:sticky;top:0;z-index:5;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;padding:14px max(16px,env(safe-area-inset-right,0px)) 14px max(16px,env(safe-area-inset-left,0px));background:linear-gradient(to bottom,var(--bg) 45%,transparent)}
+.vx-bar .pj-back{justify-self:start}
+.vx-hero{position:relative;text-align:center;padding-top:clamp(36px,6vw,80px);overflow:hidden}
+.vx-kicker{color:var(--acc);font-size:clamp(17px,1.9vw,24px);font-weight:400;padding-inline:16px}
+.vx-title{font-size:clamp(46px,8.4vw,128px);font-weight:900;letter-spacing:-.05em;line-height:.88;text-transform:uppercase;margin-top:14px;padding-inline:16px;text-wrap:balance}
+.vx-text{max-width:54ch;margin:22px auto 0;color:var(--mute);font-size:clamp(16px,1.5vw,19px);padding-inline:16px}
+.vx-cta{margin-top:28px;padding:8px 22px 8px 8px}
+.vx-arrow{width:34px;height:34px;border-radius:50%;background:var(--on-acc);color:var(--acc);display:grid;place-items:center;font-size:16px}
+.arc{position:relative;height:clamp(240px,30vw,420px);margin-top:clamp(36px,5vw,64px);perspective:1000px;perspective-origin:50% 30%}
+.arc::after{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 45% 70% at 50% 100%,rgb(183 255 6 / .16),transparent 70%),linear-gradient(to bottom,transparent 60%,var(--bg))}
+.arc-card{--cw:clamp(140px,15vw,230px);position:absolute;left:50%;top:6%;width:var(--cw);margin-left:calc(var(--cw) / -2);aspect-ratio:3/4;border-radius:16px;overflow:hidden;background:#111;box-shadow:0 20px 60px rgba(0,0,0,.6);will-change:transform,opacity}
+.arc-card img{display:block;width:100%;height:100%;object-fit:cover}
+.vx-sec{padding-block:clamp(56px,8vw,112px)}
+.vx-h{font-size:clamp(34px,5vw,64px);font-weight:900;letter-spacing:-.04em;line-height:.98;margin-top:14px;text-wrap:balance}
+.vx-feat{margin-top:32px;display:grid;gap:16px}
+.feat{position:relative;display:block;width:100%;border:0;padding:0;border-radius:22px;overflow:hidden;aspect-ratio:16/7;cursor:pointer;background:#000;text-align:left;color:#F4F4F2}
+.feat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.feat:hover img{transform:scale(1.04)}
+.feat::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85),transparent 60%)}
+.feat-cap{position:absolute;left:clamp(18px,3vw,36px);bottom:clamp(18px,3vw,32px);right:38%;z-index:1;display:grid;gap:8px}
+.feat-cap b{font-size:clamp(24px,3vw,42px);font-weight:900;letter-spacing:-.035em;line-height:1}
+.feat-cap span{font-size:15px;color:rgba(244,244,242,.8)}
+.feat-go{position:absolute;right:clamp(18px,3vw,32px);bottom:clamp(18px,3vw,32px);z-index:1;border-radius:999px;padding:10px 16px;font-size:14px;font-weight:700;background:rgba(10,10,10,.5);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:inset 0 0 0 1px rgba(244,244,242,.2)}
+.svc{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:36px}
+.svc li{border-radius:18px;background:var(--panel);box-shadow:inset 0 0 0 1px var(--line);padding:22px;min-height:200px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;transition:box-shadow .3s,transform .3s}
+.svc li:hover{box-shadow:inset 0 0 0 1px var(--hi);transform:translateY(-3px)}
+.svc .n{font-size:12px;font-weight:800;color:var(--acc);letter-spacing:.1em}
+.svc h4{margin:0;font-size:19px;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.svc p{margin-top:8px;color:var(--mute);font-size:15px}
+.start{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:36px}
+.start li{border-top:1px solid var(--line);padding-top:20px}
+.start .n{font-size:56px;font-weight:900;letter-spacing:-.05em;line-height:1;color:var(--acc)}
+.start h4{margin:16px 0 0;font-size:22px;font-weight:800;letter-spacing:-.02em}
+.start p{margin-top:8px;color:var(--mute)}
+.vx-join{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start}
+.vx-big{font-size:clamp(40px,6vw,84px);font-weight:900;letter-spacing:-.05em;line-height:.92;margin-top:14px;text-wrap:balance}
+.vx-big span{display:block;font-weight:300;color:var(--mute)}
+.field textarea{width:100%;min-height:96px;resize:vertical;border:0;border-radius:12px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line);padding:14px 16px;font:inherit;font-size:16px;color:inherit}
+.field textarea:focus{outline:none;box-shadow:inset 0 0 0 2px var(--hi)}
+.vx .vtabs{display:none}
+@media (max-width:900px){.svc{grid-template-columns:repeat(2,minmax(0,1fr))}.start,.vx-join{grid-template-columns:minmax(0,1fr)}.feat{aspect-ratio:4/3}.feat-cap{right:18px;bottom:72px}}
+@media (max-width:560px){.svc{grid-template-columns:minmax(0,1fr)}}
+
 /* ── Cursor y corte ───────────────────── */
 .cursor{position:fixed;left:0;top:0;z-index:70;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;background:var(--acc);color:#0A0A0A;display:grid;place-items:center;font-size:12px;font-weight:900;letter-spacing:.14em;pointer-events:none;transform:translate3d(var(--cx,-200px),var(--cy,-200px),0) scale(var(--cs,0));transition:transform .18s var(--ease)}
 .cut{position:fixed;inset:0;z-index:100;background:#0A0A0A;display:grid;place-items:center;opacity:0;pointer-events:none;transition:opacity .18s}
@@ -627,6 +672,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   </section>
 </main>
 
+<div class="pj vx" id="vx" role="dialog" aria-modal="true" aria-label="Vista interna" hidden></div>
 <div class="pj" id="pj" role="dialog" aria-modal="true" aria-label="Proyecto" hidden></div>
 <div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Pieza" aria-hidden="true">
   <div class="v-card" id="v-card"><div id="v-stage"></div><div class="v-glow"></div></div>
@@ -767,7 +813,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   /* ── Proyectos: ficha de cada uno. Campo vacío = no se muestra (el aforo espera cifra registrada, contrato #5) ── */
   var PROJECTS = {
     "topboy-royal-center": {
-      l:"c", ti:"TOPBOY", sub:"en el Royal Center", card:"topboy-aftermovie",   /* card = la única pieza que aparece en el reel; las demás viven en la ficha */
+      l:"c", v:"v", ti:"TOPBOY", sub:"en el Royal Center", card:"topboy-aftermovie",   /* card = la única pieza que aparece en el reel; las demás viven en la ficha */
       lugar:"Teatro Royal Center", ciudad:"Bogotá", pais:"Colombia", aforo:"", fecha:"19 de septiembre de 2026",
       hero:"reel/topboy-aftermovie-hq", heroM:"reel/topboy-aftermovie-hq-m",   /* aftermovie completo: 1350x1080 en escritorio, 1080 px en celular */
       lead:"La noche de TOPBOY en el Teatro Royal Center de Bogotá, coproducida con Rimas y registrada por nuestra crew.",
@@ -775,6 +821,47 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
       piezas:["kei-linch","andresz-royal","tellez"]   /* el aftermovie ya va en la portada de la ficha */
     }
   };
+
+  /* ── Vistas internas de G*Stars (se abren desde las puertas) ── */
+  var VIEWS = {
+    artistas: {
+      l:"c", v:"p", kicker:"Trust your vision.", ti:"Artistas y Sellos", next:"lanzamiento", lbl:"Artista o sello",
+      txt:"Ponemos el sistema para que tu música crezca: estrategia, contenido, lanzamientos y datos propios. Las decisiones siguen siendo tuyas.",
+      svcH:"Todo lo que tu proyecto necesita para crecer.",
+      svc:[
+        ["Concepto de la era","Quién eres en este momento, cómo te ves y a quién le hablas."],
+        ["Ecosistema digital","Página, biolink y presave: un solo lugar que cuenta cada visita."],
+        ["Management mensual","Ciclos de 28 días con objetivos, tareas y resultados claros."],
+        ["Lanzamientos","Cuando la música está lista, sale con plan: antes, durante y después."],
+        ["Producción audiovisual","Videoclips, visualizers y contenido para redes, con nuestra crew."],
+        ["Crecimiento en redes","Pauta y contenido que llevan público nuevo a tu música."],
+        ["Prensa y alianzas","Medios, marcas y colaboraciones que te validan desde afuera."],
+        ["Informe mensual","Lo planeado contra lo que pasó, con tus números."]
+      ]
+    },
+    eventos: {
+      l:"c", v:"v", kicker:"Trust your vision.", ti:"Producción de Eventos", next:"evento", lbl:"Nombre del evento",
+      txt:"Del cartel a la última boleta: identidad, venta, contenido en vivo y los datos de cada persona que llega.",
+      svcH:"Todo lo que tu evento necesita para llenarse.",
+      svc:[
+        ["Público y mercado","A quién le vendes, dónde está y qué lo mueve."],
+        ["Identidad del evento","Nombre, cartel y estética que se reconocen de lejos."],
+        ["Página de venta","Un video que vende y un botón que compra; cada boleta queda contada."],
+        ["Pauta","Anuncios que llevan a la gente correcta a comprar."],
+        ["Atención y ventas","WhatsApp con bot y equipo para resolver dudas y cerrar ventas."],
+        ["Cubrimiento en vivo","La crew registra la noche y edita mientras el show sigue."],
+        ["Contenido del público","Lo que la gente graba, convertido en promoción."],
+        ["Prensa y patrocinios","Medios y marcas que suman alcance y recursos."]
+      ]
+    }
+  };
+  var START = [
+    ["Nos escribes","Llenas el formulario de abajo; toma dos minutos."],
+    ["Diagnóstico gratis","Revisamos lo público de tu proyecto y te decimos qué lo está frenando."],
+    ["Propuesta a tu medida","Elegimos juntos qué necesitas y arrancamos por el primer paso."]
+  ];
+  /* Piezas de la galería curva de la portada de cada vista */
+  var ARC = ["reel/topboy-aftermovie-hq","reel/kei-linch-portada","hero/banner-artistas","reel/andresz-royal-portada","hero/hero-growthstars","reel/tellez-portada","hero/banner-eventos","reel/topboy-aftermovie-portada"];
 
   /* Video de cada puerta, por frente */
   var DOORVID = {n:{p:"cumbre", v:"hero/hero-growthstars"}, e:{p:"cumbre", v:"feria-experiencia"}, c:{p:"hero/banner-artistas", v:"hero/banner-eventos"}};
@@ -916,6 +1003,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     d.addEventListener("blur", function(){ if (!d.classList.contains("live")) pauseIn(d); });
     d.addEventListener("click", function(){
       if (mode === "n"){ setMode(d.dataset.vert === "p" ? "e" : "c", true, $("top")); return; }
+      if (mode === "c"){ openView(d.dataset.vert === "p" ? "artistas" : "eventos", d); return; }   /* G*Stars: cada puerta abre su vista interna */
       vert = d.dataset.vert; filter = "all"; step = 0;   /* sin filtros visibles: la puerta elige los pasos, el reel muestra todo */
       renderDoors(); renderReel(); renderSteps();
       $("reel").scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"});
@@ -1024,7 +1112,7 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   function closeVisor(){
     clearTimeout(V.timer);
     visor.classList.remove("on"); visor.setAttribute("aria-hidden", "true");
-    if (pj.hidden) document.documentElement.classList.remove("lock");   /* si la ficha sigue abierta, la página sigue bloqueada */
+    if (pj.hidden && vx.hidden) document.documentElement.classList.remove("lock");   /* si hay una ficha o vista abierta, la página sigue bloqueada */
     setTimeout(function(){ vstage.innerHTML = ""; }, 220);
     if (V.opener) V.opener.focus({preventScroll:true});
   }
@@ -1104,11 +1192,139 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
     $("pj-close").focus({preventScroll:true});
   }
   function closeProject(){
-    pj.classList.remove("on"); document.documentElement.classList.remove("lock");
+    pj.classList.remove("on"); if (vx.hidden) document.documentElement.classList.remove("lock");
     setTimeout(function(){ pj.hidden = true; pj.innerHTML = ""; }, 300);
-    try { history.replaceState(null, "", mode === "n" ? location.pathname : "#" + HASH[mode]); } catch(e){}
+    try { history.replaceState(null, "", vxCur ? "#" + vxCur : mode === "n" ? location.pathname : "#" + HASH[mode]); } catch(e){}
     if (pjOpener) pjOpener.focus({preventScroll:true});
   }
+  /* ── Vistas internas: portada con galería curva, proyectos, cómo trabajamos, servicios, cómo empezar y formulario ── */
+  var vx = $("vx"), vxOpener = null, vxCur = null, arcRaf = 0;
+  function openView(id, opener){
+    var V = VIEWS[id]; if (!V) return;
+    vxOpener = opener || null; vxCur = id;
+    var feat = Object.keys(PROJECTS).filter(function(k){ return PROJECTS[k].l === V.l && PROJECTS[k].v === V.v; });
+    var arc = ARC.concat(ARC).slice(0, 12);
+    vx.innerHTML =
+      '<div class="vx-bar"><button type="button" class="pj-back" id="vx-close">← Volver</button>' + logoHTML(V.l, "small") + '<span></span></div>' +
+      '<section class="vx-hero">' +
+        '<p class="vx-kicker">' + esc(V.kicker) + '</p>' +
+        '<h2 class="vx-title">' + esc(V.ti) + '</h2>' +
+        '<p class="vx-text">' + esc(V.txt) + '</p>' +
+        '<button type="button" class="btn vx-cta" id="vx-go"><span class="vx-arrow">→</span>Trabajemos juntos</button>' +
+        '<div class="arc" id="arc" aria-hidden="true">' + arc.map(function(p){ return '<div class="arc-card"><img src="' + M + p + '.webp" alt="" loading="lazy"></div>'; }).join("") + '</div>' +
+      '</section>' +
+      (feat.length ? '<section class="wrap vx-sec"><span class="lbl">Proyectos</span><h3 class="vx-h">Lo que ya hicimos.</h3><div class="vx-feat">' +
+        feat.map(function(k){ var P = PROJECTS[k]; return '<button type="button" class="feat" data-pj="' + k + '"><img src="' + M + P.hero + '.webp" alt=""><span class="feat-cap"><b>' + esc(P.ti + " " + P.sub) + '</b><span>' + esc(P.lead) + '</span></span><span class="feat-go">Ver proyecto →</span></button>'; }).join("") +
+      '</div></section>' : '') +
+      '<div id="vx-steps"></div>' +
+      '<section class="wrap vx-sec"><span class="lbl">Qué cubrimos</span><h3 class="vx-h">' + esc(V.svcH) + '</h3><ul class="svc">' +
+        V.svc.map(function(s, i){ return '<li><span class="n">0' + (i + 1) + '</span><div><h4>' + esc(s[0]) + '</h4><p>' + esc(s[1]) + '</p></div></li>'; }).join("") +
+      '</ul></section>' +
+      '<section class="wrap vx-sec"><span class="lbl">Cómo empezar</span><h3 class="vx-h">Tres pasos y arrancamos.</h3><ol class="start">' +
+        START.map(function(s, i){ return '<li><span class="n">' + (i + 1) + '</span><h4>' + esc(s[0]) + '</h4><p>' + esc(s[1]) + '</p></li>'; }).join("") +
+      '</ol></section>' +
+      '<section class="wrap vx-sec vx-join" id="vx-form">' +
+        '<div><span class="lbl">Contacto</span><h3 class="vx-big"><span>Empecemos</span>tu próximo ' + esc(V.next) + '.</h3>' +
+          '<p class="sub">Cuéntanos de tu proyecto y te respondemos con un diagnóstico gratis.</p>' +
+          '<div class="contact-line"><span>+57 313 363 7653</span><span>growthstarscolombia@gmail.com</span></div></div>' +
+        '<form class="form" id="f2" novalidate><div id="f2-body" style="display:grid;gap:18px">' +
+          '<h3>' + starify("Quiero trabajar con GROWTH*Stars") + '</h3>' +
+          '<div class="field"><label for="f2-nombre">Tu nombre</label><input type="text" id="f2-nombre" autocomplete="name" placeholder="Nombre y apellido"><span class="err" id="e2-nombre"></span></div>' +
+          '<div class="field"><label for="f2-proyecto">' + esc(V.lbl) + '</label><input type="text" id="f2-proyecto" placeholder="Cómo se llama"><span class="err" id="e2-proyecto"></span></div>' +
+          '<div class="field"><label for="f2-link">Instagram o página web</label><input type="text" id="f2-link" inputmode="url" autocapitalize="off" spellcheck="false" placeholder="@usuario o pagina.com"><span class="err" id="e2-link"></span></div>' +
+          '<div class="field"><label for="f2-contacto">WhatsApp o correo</label><input type="text" id="f2-contacto" autocapitalize="off" spellcheck="false" placeholder="Dónde te respondemos"><span class="err" id="e2-contacto"></span></div>' +
+          '<fieldset class="field"><legend>¿Qué te interesa?</legend><div class="opts">' +
+            V.svc.map(function(s, i){ return '<label class="opt"><input type="checkbox" name="need" id="need-' + i + '" value="' + esc(s[0]) + '"><span>' + esc(s[0]) + '</span></label>'; }).join("") +
+          '</div></fieldset>' +
+          '<div class="field"><label for="f2-msg">Cuéntanos más (opcional)</label><textarea id="f2-msg" placeholder="Fechas, metas, lo que tengas en mente"></textarea></div>' +
+          '<button type="submit" class="btn">Enviar por WhatsApp →</button>' +
+          '<p class="note">Usamos estos datos solo para responderte.</p>' +
+        '</div>' +
+        '<div class="done" id="f2-done" hidden tabindex="-1"><h3 id="f2-h">Listo.</h3><p class="sub" style="margin-top:0">Tu mensaje está listo. Envíalo por WhatsApp y te respondemos.</p>' +
+          '<div class="done-acts"><a class="btn" id="f2-wa" href="https://wa.me/' + WA + '" target="_blank" rel="noopener">Enviar por WhatsApp →</a></div>' +
+          '<button type="button" class="linkbtn" id="f2-fix">Corregir los datos</button></div>' +
+        '</form>' +
+      '</section>';
+
+    /* el gráfico de las casas es el mismo componente de la página: se muda a la vista y vuelve al cerrar */
+    $("vx-steps").appendChild($("pasos"));
+    vert = V.v; step = 0; renderSteps();
+
+    vx.querySelectorAll(".feat").forEach(function(b){ b.addEventListener("click", function(){ openProject(b.dataset.pj, b); }); });
+    $("vx-go").addEventListener("click", function(){ $("vx-form").scrollIntoView({behavior: reduce ? "auto" : "smooth", block:"start"}); });
+    $("vx-close").addEventListener("click", closeView);
+    wireJoin(V);
+
+    vx.hidden = false; vx.scrollTop = 0;
+    requestAnimationFrame(function(){ vx.classList.add("on"); });
+    document.documentElement.classList.add("lock");
+    try { history.replaceState(null, "", "#" + id); } catch(e){}
+    arcStart();
+    $("vx-close").focus({preventScroll:true});
+  }
+  function closeView(){
+    cancelAnimationFrame(arcRaf); arcRaf = 0;
+    document.querySelector("main").appendChild($("pasos"));
+    vx.classList.remove("on"); if (pj.hidden) document.documentElement.classList.remove("lock");
+    setTimeout(function(){ vx.hidden = true; vx.innerHTML = ""; }, 300);
+    vxCur = null;
+    try { history.replaceState(null, "", mode === "n" ? location.pathname : "#" + HASH[mode]); } catch(e){}
+    if (vxOpener) vxOpener.focus({preventScroll:true});
+  }
+  /* Galería curva: las piezas giran sobre un arco cóncavo, como en la referencia */
+  function arcStart(){
+    var box = $("arc"), cards = box.querySelectorAll(".arc-card"), n = cards.length, off = 0, last = 0;
+    function place(){
+      var R = Math.max(560, box.clientWidth * .78);
+      cards.forEach(function(c, i){
+        var a = ((i - off) % n + n) % n; if (a > n / 2) a -= n;
+        var ang = a * .3;
+        c.style.transform = "translate3d(" + (Math.sin(ang) * R).toFixed(1) + "px,0," + ((1 - Math.cos(ang)) * R * .7).toFixed(1) + "px) rotateY(" + (-ang).toFixed(3) + "rad)";
+        c.style.opacity = Math.max(0, 1 - Math.pow(Math.abs(a) / (n / 2), 2)).toFixed(2);
+        c.style.zIndex = String(Math.round(100 - Math.abs(a) * 8));
+      });
+    }
+    function frame(t){
+      arcRaf = requestAnimationFrame(frame);
+      if (document.hidden) { last = t; return; }
+      off += .00035 * Math.min(50, t - (last || t)); last = t; place();
+    }
+    place();
+    if (!reduce) arcRaf = requestAnimationFrame(frame);
+  }
+  /* Formulario de la vista: arma el mensaje y lo deja listo para WhatsApp */
+  function wireJoin(V){
+    var RE_C = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/, RE_U = /^@?[A-Za-z0-9._]{2,30}$/, RE_W = /^(https?:\/\/)?([\w-]+\.)+[a-z]{2,}(\/\S*)?$/i;
+    function okContacto(v){ if (v.indexOf("@") > -1) return RE_C.test(v); if (!/^[+\d\s().-]+$/.test(v)) return false; var d = v.replace(/\D/g, "").length; return d >= 7 && d <= 15; }
+    function okLink(v){ return RE_W.test(v) || RE_U.test(v); }
+    function aLink(v){ if (RE_W.test(v) && v.indexOf(".") > -1 && v.charAt(0) !== "@") return /^https?:\/\//i.test(v) ? v : "https://" + v; return "https://instagram.com/" + v.replace(/^@/, ""); }
+    var F = {nombre:$("f2-nombre"), proyecto:$("f2-proyecto"), link:$("f2-link"), contacto:$("f2-contacto")};
+    function marcar(k, m){ if (m) F[k].setAttribute("aria-invalid", "true"); else F[k].removeAttribute("aria-invalid"); $("e2-" + k).textContent = m || ""; }
+    Object.keys(F).forEach(function(k){ F[k].addEventListener("input", function(){ if (F[k].hasAttribute("aria-invalid")) marcar(k, ""); }); });
+    $("f2").addEventListener("submit", function(ev){
+      ev.preventDefault();
+      var d = {nombre:F.nombre.value.trim(), proyecto:F.proyecto.value.trim(), link:F.link.value.trim(), contacto:F.contacto.value.trim()};
+      var fallas = {
+        nombre: d.nombre.length < 2 ? "Escribe tu nombre." : "",
+        proyecto: d.proyecto.length < 2 ? "Escribe el nombre." : "",
+        link: !okLink(d.link) ? "Escribe el @usuario de Instagram o la dirección de la web." : "",
+        contacto: !okContacto(d.contacto) ? "Escribe un WhatsApp o un correo válido." : ""
+      };
+      var first = null;
+      Object.keys(fallas).forEach(function(k){ marcar(k, fallas[k]); if (fallas[k] && !first) first = k; });
+      if (first){ F[first].focus(); return; }
+      var needs = Array.prototype.map.call(vx.querySelectorAll('input[name="need"]:checked'), function(i){ return i.value; });
+      var msg = ["Hola, GROWTH*Stars. Quiero trabajar con ustedes.", "", "Nombre: " + d.nombre, V.lbl + ": " + d.proyecto, "Instagram o web: " + aLink(d.link), "Contacto: " + d.contacto]
+        .concat(needs.length ? ["Me interesa: " + needs.join(", ")] : [])
+        .concat($("f2-msg").value.trim() ? ["", $("f2-msg").value.trim()] : []).join("\n");
+      $("f2-wa").href = "https://wa.me/" + WA + "?text=" + encodeURIComponent(msg);
+      $("f2-h").textContent = "Listo, " + d.nombre.split(/\s+/)[0] + ".";
+      $("f2-body").hidden = true; $("f2-done").hidden = false; $("f2-done").focus({preventScroll:true});
+    });
+    $("f2-fix").addEventListener("click", function(){ $("f2-done").hidden = true; $("f2-body").hidden = false; F.nombre.focus(); });
+  }
+  addEventListener("keydown", function(ev){ if (ev.key === "Escape" && !vx.hidden && pj.hidden && !visor.classList.contains("on")) closeView(); }, true);
+
   /* En captura: si el visor está abierto, Esc cierra solo el visor */
   addEventListener("keydown", function(ev){ if (ev.key === "Escape" && !pj.hidden && !visor.classList.contains("on")) closeProject(); }, true);
 
@@ -1385,10 +1601,12 @@ body[data-mode="n"] .brands[data-show~="n"]{display:grid!important}
   /* ── Arranque: #stars o #startups (o la ruta /stars, /startups) abren el frente; -eventos o -proyectos eligen la vertical ── */
   var hraw = (location.hash || "").slice(1).toLowerCase(), path0 = (location.pathname.split("/").filter(Boolean)[0] || "").toLowerCase();
   var pjId = PROJECTS[hraw] ? hraw : null;   /* #topboy-royal-center abre la ficha de ese proyecto */
+  var vxId = VIEWS[hraw] ? hraw : null;      /* #artistas o #eventos abren la vista interna */
   var h = (/^(startups|empresa|stars|cultura)/.test(hraw) ? hraw : "") || path0;
-  mode = /^(startups|empresa)/.test(h) ? "e" : /^(stars|cultura)/.test(h) ? "c" : (pjId ? PROJECTS[pjId].l : "n");
+  mode = /^(startups|empresa)/.test(h) ? "e" : /^(stars|cultura)/.test(h) ? "c" : (pjId ? PROJECTS[pjId].l : vxId ? VIEWS[vxId].l : "n");
   render();
-  if (pjId) openProject(pjId, null);
+  if (vxId) openView(vxId, null);
+  else if (pjId) openProject(pjId, null);
   if (/-eventos$/.test(h)){ vert = "v"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
   else if (/-proyectos$/.test(h)){ vert = "p"; renderDoors(); renderReel(); renderSteps(); pretipo(); }
 })();
